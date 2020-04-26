@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = require('../constants');
+const loginMiddle = require('../middleware/loginMiddleware')
 
 const User = mongoose.model("User");
 const router = express.Router();
@@ -9,6 +12,11 @@ const router = express.Router();
 router.get('/',(req,res)=>{
     res.send("Welcome to our InstaClone API");
 });
+
+// Just to test that our middleware is working correctly
+router.get('/protected',loginMiddle,(req,res)=>{
+    res.send('Hello from protected route');
+})
 
 // Route to handle SignUp requests
 router.post('/signup',(req,res)=>{
@@ -63,7 +71,9 @@ router.post('/signin',(req,res) =>{
             bcrypt.compare(password,savedUser.Password)
                 .then(doMatch =>{
                     if(doMatch){
-                        res.json({message:"successfully signed in"});
+                        // we will generate the token based on the ID of user
+                        const token = jwt.sign({_id : savedUser._id},JWT_SECRET);
+                        res.json({token});
                     }else{
                         return res.status(422).json({error:"Invalid Email or Password"});
                     }
@@ -73,4 +83,6 @@ router.post('/signin',(req,res) =>{
             console.log(err);
         })
 });
+
+
 module.exports = router ;
