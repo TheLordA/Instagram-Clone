@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = require('../constants');
-const loginMiddle = require('../middleware/loginMiddleware')
+//const loginMiddle = require('../middleware/loginMiddleware');
 
 const User = mongoose.model("User");
 const router = express.Router();
@@ -14,9 +14,11 @@ router.get('/',(req,res)=>{
 });
 
 // Just to test that our middleware is working correctly
+/*
 router.get('/protected',loginMiddle,(req,res)=>{
     res.send('Hello from protected route');
 })
+*/
 
 // Route to handle SignUp requests
 router.post('/signup',(req,res)=>{

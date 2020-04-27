@@ -15,8 +15,9 @@ module.exports = (req,res,next) => {
         }
         const {_id} = payload;
         User.findById(_id).then(userdata =>{
+            // We make user data accessible 
             req.user = userdata ;
+            next();
         })
-        next();
     })
 }
