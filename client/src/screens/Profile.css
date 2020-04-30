@@ -1,0 +1,31 @@
+.main {
+	max-width: 850px;
+	margin: 0px auto;
+}
+/* Styling the account info bar*/
+.info-bar {
+	display: flex;
+	justify-content: space-around;
+	margin: 18px 0px;
+	border-bottom: 1px solid grey;
+}
+.profile-pic {
+	width: 160px;
+	height: 160px;
+	border-radius: 80px;
+}
+.profile-detail {
+	display: flex;
+	justify-content: space-between;
+	width: 108%;
+}
+
+.gallery {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.item {
+	width: 30%;
+	margin-bottom: 10px;
+}
