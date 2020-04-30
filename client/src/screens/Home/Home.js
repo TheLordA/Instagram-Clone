@@ -25,7 +25,7 @@ const Home = () => {
 						alt=""
 						src="https://images.unsplash.com/photo-1564874757179-b0358f74df91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
 					/>
-					<i class="material-icons">favorite</i>
+					<i className="material-icons">favorite</i>
 					<h5>title</h5>
 					<p>this is an amazing post</p>
 				</div>
