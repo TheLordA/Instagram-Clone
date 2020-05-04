@@ -32,7 +32,8 @@ const Signup = () => {
 			)
 				.then((res) => {
 					const data = res.data;
-					if (data) {
+					console.log(data);
+					if (data.error) {
 						M.toast({
 							html: data.error,
 							classes: "#e57373 red lighten-2",
