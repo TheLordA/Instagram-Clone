@@ -5,7 +5,8 @@ import Home from "./screens/Home/Home";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import Signup from "./screens/Signup";
-import CreatePost from "./screens/CreatePost/CreatePost";
+import Post from "./screens/Post";
+//import CreatePost from "./screens/CreatePost/CreatePost";
 import "./App.css";
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
 				<Signup />
 			</Route>
 			<Route path="/create">
-				<CreatePost />
+				<Post />
 			</Route>
 		</BrowserRouter>
 	);
