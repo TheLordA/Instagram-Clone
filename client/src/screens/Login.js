@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 import axios from "axios";
 import M from "materialize-css";
 
 const Login = () => {
+	const { state, dispatch } = useContext(UserContext);
 	const URL = `http://localhost:5000/signin`;
 	const history = useHistory();
 
@@ -45,7 +47,7 @@ const Login = () => {
 							"user",
 							JSON.stringify(data.user)
 						);
-
+						dispatch({ type: "USER", payload: data.user });
 						//we can show that success PopUp or not depends on dev choice
 						/*M.toast({
 									html: "Signed In successfully",
