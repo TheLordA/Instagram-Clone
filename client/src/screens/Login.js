@@ -37,6 +37,15 @@ const Login = () => {
 							classes: "#e57373 red lighten-2",
 						});
 					} else {
+						// we store our generated token in order to use it to access protected endpoints
+						localStorage.setItem("jwt", data.token);
+
+						// we also store the user details
+						localStorage.setItem(
+							"user",
+							JSON.stringify(data.user)
+						);
+
 						//we can show that success PopUp or not depends on dev choice
 						/*M.toast({
 									html: "Signed In successfully",

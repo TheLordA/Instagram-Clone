@@ -28,7 +28,7 @@ router.get("/mypost", loginmiddleware, (req, res) => {
 		});
 });
 
-router.post("/createpost", (req, res) => {
+router.post("/createpost", loginmiddleware, (req, res) => {
 	const { title, body, photoEncode, photoType } = req.body;
 	if (!title || !body || !photoEncode) {
 		return res.json({ error: "Please submit all the required fields." });

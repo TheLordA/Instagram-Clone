@@ -8,7 +8,7 @@ import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
-import "./CreatePost/CreatePost";
+import "./CreatePost.css";
 import Axios from "axios";
 
 registerPlugin(
@@ -25,20 +25,24 @@ const Post = () => {
 	const [files, setFiles] = useState([]);
 
 	const URL = `http://localhost:5000/createpost`;
-	/*const headers = {
+	const headers = {
 		"Content-Type": "application/json",
-		Authorization: Token,
-	};*/
+		Authorization: "Bearer " + localStorage.getItem("jwt"),
+	};
 	const PostData = () => {
 		const photoEncode = files[0].getFileEncodeBase64String();
 		const photoType = files[0].fileType;
 
-		Axios.post(URL, {
-			title,
-			body,
-			photoEncode,
-			photoType,
-		}).then((rep) => {
+		Axios.post(
+			URL,
+			{
+				title,
+				body,
+				photoEncode,
+				photoType,
+			},
+			headers
+		).then((rep) => {
 			console.log(rep.data.post);
 		});
 	};
