@@ -7,25 +7,29 @@ const Home = () => {
 	const [data, setData] = useState([]);
 	useEffect(() => {
 		axios.get(URL).then((res) => {
-			setData(res.data.photo);
+			console.log(res.data.posts);
+			setData(res.data.posts);
 		});
 	}, []);
 
-	return (
-		<div className="home">
+	return data.map((item) => (
+		<div className="home" key={item.id}>
 			<div className="card home-card">
-				<h5>TheLordA</h5>
+				<h5>Author Name</h5>
 				<div className="card image">
-					<img alt="" src={`data:image/png;base64,${data}`} />
+					<img
+						alt=""
+						src={`data:${item.photoType};base64,${item.photo}`}
+					/>
 				</div>
 				<div className="card content">
-					<h5>title</h5>
-					<p>this is an amazing post</p>
+					<h5>{item.title}</h5>
+					<p>{item.body}</p>
 					<input type="text" placeholder="add a comment"></input>
 				</div>
 			</div>
 		</div>
-	);
+	));
 };
 
 export default Home;

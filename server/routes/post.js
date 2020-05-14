@@ -4,14 +4,23 @@ const loginmiddleware = require("../middleware/loginMiddleware");
 
 const Post = mongoose.model("Post");
 const router = express.Router();
-//const imageMimeTypes = ["image/jpeg", "image/png", "images/gif"];
 
 router.get("/allpost", (req, res) => {
 	Post.find()
 		.populate("PostedBy", "_id Name")
-		.then((posts) => {
-			//console.log(posts[0].Photo.toString("base64"));
-			res.json({ photo: posts[0].Photo.toString("base64") });
+		.then((data) => {
+			let posts = [];
+			data.map((item) => {
+				posts.push({
+					id: item._id,
+					title: item.Title,
+					body: item.body,
+					postedBy: item.PostedBy,
+					photo: item.Photo.toString("base64"),
+					photoType: item.PhotoType,
+				});
+			});
+			res.json({ posts });
 		})
 		.catch((err) => {
 			console.log(err);
