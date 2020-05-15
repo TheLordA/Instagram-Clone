@@ -73,6 +73,35 @@ router.post("/createpost", loginmiddleware, (req, res) => {
 		});
 });
 
+router.put("/like", loginmiddleware, (req, res) => {
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			$push: { likes: req.user._id },
+		},
+		{ new: true }
+	).exec((err, result) => {
+		if (err) return res.status(422).json({ Error: err });
+		else {
+			res.json(result);
+		}
+	});
+});
+router.put("/Unlike", loginmiddleware, (req, res) => {
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			$pull: { likes: req.user._id },
+		},
+		{ new: true }
+	).exec((err, result) => {
+		if (err) return res.status(422).json({ Error: err });
+		else {
+			res.json(result);
+		}
+	});
+});
+
 function savePhoto(post, photoEncoded, photoType) {
 	if (photoEncoded != null) {
 		post.Photo = new Buffer.from(photoEncoded, "base64");

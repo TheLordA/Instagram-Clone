@@ -21,13 +21,12 @@ const postSchema = new mongoose.Schema({
 		type: ObjectId,
 		ref: "User",
 	},
+	Likes: [{ type: ObjectId, ref: "User" }],
 });
 
 postSchema.virtual("PhotoPath").get(function () {
 	if (this.Photo != null && this.PhotoType != null) {
-		return `data:${
-			this.PhotoType
-		};charset=utf-8;base64,${this.Photo.toString("base64")}`;
+		return `data:${this.PhotoType};charset=utf-8;base64,${this.Photo.toString("base64")}`;
 	}
 });
 
