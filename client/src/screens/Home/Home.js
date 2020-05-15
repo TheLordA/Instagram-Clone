@@ -5,9 +5,14 @@ import "./Home.css";
 const Home = () => {
 	const URL = `http://localhost:5000/allpost`;
 	const [data, setData] = useState([]);
+	const config = {
+		headers: {
+			Authorization: "Bearer " + localStorage.getItem("jwt"),
+		},
+	};
+
 	useEffect(() => {
-		axios.get(URL).then((res) => {
-			console.log(res.data.posts);
+		axios.get(URL, config).then((res) => {
 			setData(res.data.posts);
 		});
 	}, []);
@@ -17,10 +22,7 @@ const Home = () => {
 			<div className="card home-card">
 				<h5>Author Name</h5>
 				<div className="card image">
-					<img
-						alt=""
-						src={`data:${item.photoType};base64,${item.photo}`}
-					/>
+					<img alt="" src={`data:${item.photoType};base64,${item.photo}`} />
 				</div>
 				<div className="card content">
 					<h5>{item.title}</h5>
