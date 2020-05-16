@@ -17,16 +17,56 @@ const Home = () => {
 		});
 	}, []);
 
+	const likePost = (id) => {
+		axios.put(`http://localhost:5000/like`, { postId: id }, config)
+			.then((result) => {
+				const newData = data.map((item) => {
+					if (result.data._id === item._id) return result.data;
+					else return item;
+				});
+				setData(newData);
+			})
+			.catch((err) => console.log(err));
+	};
+	const UnlikePost = (id) => {
+		axios.put(`http://localhost:5000/Unlike`, { postId: id }, config)
+			.then((res) => {
+				const newData = data.map((item) => {
+					if (res.data._id === item._id) return res.data;
+					else return item;
+				});
+				setData(newData);
+			})
+			.catch((err) => console.log(err));
+	};
+
 	return data.map((item) => (
-		<div className="home" key={item.id}>
+		<div className="home" key={item._id}>
 			<div className="card home-card">
-				<h5>Author Name</h5>
+				<h5>{item.PostedBy ? item.PostedBy.Name : "Unknown author"}</h5>
 				<div className="card image">
-					<img alt="" src={`data:${item.photoType};base64,${item.photo}`} />
+					<img alt="" src={`data:${item.PhotoType};base64,${item.Photo}`} />
 				</div>
 				<div className="card content">
-					<h5>{item.title}</h5>
-					<p>{item.body}</p>
+					<i
+						className="material-icons"
+						onClick={() => {
+							likePost(item._id);
+						}}
+					>
+						thumb_up
+					</i>
+					<i
+						className="material-icons"
+						onClick={() => {
+							UnlikePost(item._id);
+						}}
+					>
+						thumb_down
+					</i>
+					<h6>{item.Likes.length} likes</h6>
+					<h6>{item.Title}</h6>
+					<p>{item.Body}</p>
 					<input type="text" placeholder="add a comment"></input>
 				</div>
 			</div>

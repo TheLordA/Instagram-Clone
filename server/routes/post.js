@@ -12,12 +12,13 @@ router.get("/allpost", loginmiddleware, (req, res) => {
 			let posts = [];
 			data.map((item) => {
 				posts.push({
-					id: item._id,
-					title: item.Title,
-					body: item.body,
-					postedBy: item.PostedBy,
-					photo: item.Photo.toString("base64"),
-					photoType: item.PhotoType,
+					_id: item._id,
+					Title: item.Title,
+					Body: item.Body,
+					PostedBy: item.PostedBy,
+					Photo: item.Photo.toString("base64"),
+					PhotoType: item.PhotoType,
+					Likes: item.Likes,
 				});
 			});
 			res.json({ posts });
@@ -40,6 +41,7 @@ router.get("/mypost", loginmiddleware, (req, res) => {
 					//postedBy: item.PostedBy,
 					photo: item.Photo.toString("base64"),
 					photoType: item.PhotoType,
+					likes: item.Likes,
 				});
 			});
 			res.json({ posts });
@@ -77,13 +79,21 @@ router.put("/like", loginmiddleware, (req, res) => {
 	Post.findByIdAndUpdate(
 		req.body.postId,
 		{
-			$push: { likes: req.user._id },
+			$push: { Likes: req.user._id },
 		},
 		{ new: true }
 	).exec((err, result) => {
 		if (err) return res.status(422).json({ Error: err });
 		else {
-			res.json(result);
+			res.json({
+				_id: result._id,
+				Title: result.Title,
+				Body: result.Body,
+				PostedBy: result.PostedBy,
+				Photo: result.Photo.toString("base64"),
+				PhotoType: result.PhotoType,
+				Likes: result.Likes,
+			});
 		}
 	});
 });
@@ -91,13 +101,21 @@ router.put("/Unlike", loginmiddleware, (req, res) => {
 	Post.findByIdAndUpdate(
 		req.body.postId,
 		{
-			$pull: { likes: req.user._id },
+			$pull: { Likes: req.user._id },
 		},
 		{ new: true }
 	).exec((err, result) => {
 		if (err) return res.status(422).json({ Error: err });
 		else {
-			res.json(result);
+			res.json({
+				_id: result._id,
+				Title: result.Title,
+				Body: result.Body,
+				PostedBy: result.PostedBy,
+				Photo: result.Photo.toString("base64"),
+				PhotoType: result.PhotoType,
+				Likes: result.Likes,
+			});
 		}
 	});
 });

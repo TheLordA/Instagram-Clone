@@ -9,6 +9,7 @@ const URL = "mongodb://localhost:27017/instadb";
 mongoose.connect(URL, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
+	useFindAndModify: false,
 });
 
 mongoose.connection.on("connected", () => {

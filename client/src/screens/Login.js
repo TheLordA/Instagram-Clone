@@ -43,10 +43,7 @@ const Login = () => {
 						localStorage.setItem("jwt", data.token);
 
 						// we also store the user details
-						localStorage.setItem(
-							"user",
-							JSON.stringify(data.user)
-						);
+						localStorage.setItem("user", JSON.stringify(data.user));
 						dispatch({ type: "USER", payload: data.user });
 						//we can show that success PopUp or not depends on dev choice
 						/*M.toast({
@@ -70,28 +67,18 @@ const Login = () => {
 		<div className="mycard">
 			<div className="card auth-card input-field">
 				<h2>Instagram Clone</h2>
+				<input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 				<input
-					type="text"
-					placeholder="email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<input
-					type="text"
+					type="password"
 					placeholder="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 				/>
-				<button
-					className="btn waves-effect waves-light"
-					onClick={() => PostData()}
-				>
+				<button className="btn waves-effect waves-light" onClick={() => PostData()}>
 					Login
 				</button>
 				<h5>
-					<Link to="/signup">
-						Does not have an account ? Create one
-					</Link>
+					<Link to="/signup">Does not have an account ? Create one</Link>
 				</h5>
 			</div>
 		</div>
