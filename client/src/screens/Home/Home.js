@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../../App";
 import "./Home.css";
 
 const Home = () => {
-	const URL = `http://localhost:5000/allpost`;
 	const [data, setData] = useState([]);
+	const { state, dispatch } = useContext(UserContext);
+	const URL = `http://localhost:5000/allpost`;
 	const config = {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -48,22 +50,26 @@ const Home = () => {
 					<img alt="" src={`data:${item.PhotoType};base64,${item.Photo}`} />
 				</div>
 				<div className="card content">
-					<i
-						className="material-icons"
-						onClick={() => {
-							likePost(item._id);
-						}}
-					>
-						thumb_up
-					</i>
-					<i
-						className="material-icons"
-						onClick={() => {
-							UnlikePost(item._id);
-						}}
-					>
-						thumb_down
-					</i>
+					{item.Likes.includes(state._id) ? (
+						<i
+							className="material-icons"
+							onClick={() => {
+								UnlikePost(item._id);
+							}}
+						>
+							thumb_down
+						</i>
+					) : (
+						<i
+							className="material-icons"
+							onClick={() => {
+								likePost(item._id);
+							}}
+						>
+							thumb_up
+						</i>
+					)}
+
 					<h6>{item.Likes.length} likes</h6>
 					<h6>{item.Title}</h6>
 					<p>{item.Body}</p>
