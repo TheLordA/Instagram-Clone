@@ -70,7 +70,7 @@ router.post("/createpost", loginmiddleware, (req, res) => {
 
 	post.save()
 		.then((result) => {
-			res.json({ post: result });
+			res.json({ message: "Post created successfully" });
 		})
 		.catch((err) => {
 			console.log(err);
@@ -84,56 +84,8 @@ router.put("/like", loginmiddleware, (req, res) => {
 			$push: { Likes: req.user._id },
 		},
 		{ new: true }
-	).exec((err, result) => {
-		if (err) return res.status(422).json({ Error: err });
-		else {
-			res.json({
-				_id: result._id,
-				Title: result.Title,
-				Body: result.Body,
-				PostedBy: result.PostedBy,
-				Photo: result.Photo.toString("base64"),
-				PhotoType: result.PhotoType,
-				Likes: result.Likes,
-				Comments: result.Comments,
-			});
-		}
-	});
-});
-router.put("/Unlike", loginmiddleware, (req, res) => {
-	Post.findByIdAndUpdate(
-		req.body.postId,
-		{
-			$pull: { Likes: req.user._id },
-		},
-		{ new: true }
-	).exec((err, result) => {
-		if (err) return res.status(422).json({ Error: err });
-		else {
-			res.json({
-				_id: result._id,
-				Title: result.Title,
-				Body: result.Body,
-				PostedBy: result.PostedBy,
-				Photo: result.Photo.toString("base64"),
-				PhotoType: result.PhotoType,
-				Likes: result.Likes,
-				Comments: result.Comments,
-			});
-		}
-	});
-});
-
-router.put("/comment", loginmiddleware, (req, res) => {
-	const comment = { Text: req.body.text, PostedBy: req.user._id };
-	Post.findByIdAndUpdate(
-		req.body.postId,
-		{
-			$push: { Comments: comment },
-		},
-		{ new: true }
 	)
-		.populate("Comments.PostedBy", "_id Name")
+		.populate("PostedBy", "_id Name")
 		.exec((err, result) => {
 			if (err) return res.status(422).json({ Error: err });
 			else {
@@ -147,6 +99,76 @@ router.put("/comment", loginmiddleware, (req, res) => {
 					Likes: result.Likes,
 					Comments: result.Comments,
 				});
+			}
+		});
+});
+
+router.put("/Unlike", loginmiddleware, (req, res) => {
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			$pull: { Likes: req.user._id },
+		},
+		{ new: true }
+	)
+		.populate("PostedBy", "_id Name")
+		.exec((err, result) => {
+			if (err) return res.status(422).json({ Error: err });
+			else {
+				console.log(result);
+				res.json({
+					_id: result._id,
+					Title: result.Title,
+					Body: result.Body,
+					PostedBy: result.PostedBy,
+					Photo: result.Photo.toString("base64"),
+					PhotoType: result.PhotoType,
+					Likes: result.Likes,
+					Comments: result.Comments,
+				});
+			}
+		});
+});
+
+router.put("/comment", loginmiddleware, (req, res) => {
+	const comment = { Text: req.body.text, PostedBy: req.user._id };
+	Post.findByIdAndUpdate(
+		req.body.postId,
+		{
+			$push: { Comments: comment },
+		},
+		{ new: true }
+	)
+		.populate("Comments.PostedBy", "_id Name")
+		.populate("PostedBy", "_id Name")
+		.exec((err, result) => {
+			if (err) return res.status(422).json({ Error: err });
+			else {
+				res.json({
+					_id: result._id,
+					Title: result.Title,
+					Body: result.Body,
+					PostedBy: result.PostedBy,
+					Photo: result.Photo.toString("base64"),
+					PhotoType: result.PhotoType,
+					Likes: result.Likes,
+					Comments: result.Comments,
+				});
+			}
+		});
+});
+
+router.delete("/deletepost/:postId", loginmiddleware, (req, res) => {
+	Post.findOne({ _id: req.params.postId })
+		.populate("PostedBy", "_id")
+		.exec((err, post) => {
+			if (err || !post) return res.status(422).json({ Error: err });
+			if (post.PostedBy._id.toString() === req.user._id.toString()) {
+				post.remove()
+					.then((result) => {
+						res.json(result._id);
+					})
+					.catch((err) => console.log(err));
 			}
 		});
 });

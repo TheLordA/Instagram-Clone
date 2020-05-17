@@ -52,11 +52,31 @@ const Home = () => {
 			})
 			.catch((err) => console.log(err));
 	};
+	const deletePost = (postId) => {
+		axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
+			const newData = data.filter((item) => {
+				return item._id !== res.data;
+			});
+			setData(newData);
+		});
+	};
 
 	return data.map((item) => (
 		<div className="home" key={item._id}>
 			<div className="card home-card">
-				<h5>{item.PostedBy ? item.PostedBy.Name : "Unknown author"}</h5>
+				<h5>
+					{item.PostedBy.Name}
+					{item.PostedBy._id == state._id && (
+						<i
+							className="material-icons"
+							onClick={() => {
+								deletePost(item._id);
+							}}
+						>
+							delete
+						</i>
+					)}
+				</h5>
 				<div className="card image">
 					<img alt="" src={`data:${item.PhotoType};base64,${item.Photo}`} />
 				</div>

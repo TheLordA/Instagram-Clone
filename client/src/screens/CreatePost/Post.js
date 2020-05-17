@@ -46,7 +46,7 @@ const Post = () => {
 			},
 			config
 		).then((rep) => {
-			console.log(rep.data.post);
+			console.log(rep.data.message);
 		});
 	};
 	return (
