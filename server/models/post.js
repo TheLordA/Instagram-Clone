@@ -22,6 +22,15 @@ const postSchema = new mongoose.Schema({
 		ref: "User",
 	},
 	Likes: [{ type: ObjectId, ref: "User" }],
+	Comments: [
+		{
+			Text: String,
+			PostedBy: {
+				type: ObjectId,
+				ref: "User",
+			},
+		},
+	],
 });
 
 postSchema.virtual("PhotoPath").get(function () {
