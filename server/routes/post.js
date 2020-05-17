@@ -19,6 +19,7 @@ router.get("/allpost", loginmiddleware, (req, res) => {
 					Photo: item.Photo.toString("base64"),
 					PhotoType: item.PhotoType,
 					Likes: item.Likes,
+					Comments: item.Comments,
 				});
 			});
 			res.json({ posts });
@@ -42,6 +43,7 @@ router.get("/mypost", loginmiddleware, (req, res) => {
 					photo: item.Photo.toString("base64"),
 					photoType: item.PhotoType,
 					likes: item.Likes,
+					Comments: item.Comments,
 				});
 			});
 			res.json({ posts });
@@ -93,6 +95,7 @@ router.put("/like", loginmiddleware, (req, res) => {
 				Photo: result.Photo.toString("base64"),
 				PhotoType: result.PhotoType,
 				Likes: result.Likes,
+				Comments: result.Comments,
 			});
 		}
 	});
@@ -115,6 +118,7 @@ router.put("/Unlike", loginmiddleware, (req, res) => {
 				Photo: result.Photo.toString("base64"),
 				PhotoType: result.PhotoType,
 				Likes: result.Likes,
+				Comments: result.Comments,
 			});
 		}
 	});

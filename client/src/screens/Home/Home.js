@@ -41,6 +41,17 @@ const Home = () => {
 			})
 			.catch((err) => console.log(err));
 	};
+	const makeComment = (text, postId) => {
+		axios.put(`http://localhost:5000/comment`, { text, postId }, config)
+			.then((result) => {
+				const newData = data.map((item) => {
+					if (result.data._id === item._id) return result.data;
+					else return item;
+				});
+				setData(newData);
+			})
+			.catch((err) => console.log(err));
+	};
 
 	return data.map((item) => (
 		<div className="home" key={item._id}>
@@ -69,11 +80,24 @@ const Home = () => {
 							thumb_up
 						</i>
 					)}
-
 					<h6>{item.Likes.length} likes</h6>
 					<h6>{item.Title}</h6>
 					<p>{item.Body}</p>
-					<input type="text" placeholder="add a comment"></input>
+					{item.Comments.map((cmt) => {
+						return (
+							<h6 key={cmt._id}>
+								<span>{cmt.PostedBy.Name}</span> {cmt.Text}
+							</h6>
+						);
+					})}
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							makeComment(e.target[0].value, item._id);
+						}}
+					>
+						<input type="text" placeholder="add a comment"></input>
+					</form>
 				</div>
 			</div>
 		</div>
