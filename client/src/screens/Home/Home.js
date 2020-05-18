@@ -78,7 +78,7 @@ const Home = () => {
 					)}
 				</h5>
 				<div className="card image">
-					<img alt="" src={`data:${item.PhotoType};base64,${item.Photo}`} />
+					<img className="post-image" alt="" src={`data:${item.PhotoType};base64,${item.Photo}`} />
 				</div>
 				<div className="card content">
 					{item.Likes.includes(state._id) ? (

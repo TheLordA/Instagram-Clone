@@ -27,6 +27,7 @@ app.use(express.json({ limit: "50mb" }));
 
 app.use(require("./routes/auth"));
 app.use(require("./routes/post"));
+app.use(require("./routes/user"));
 
 app.listen(PORT, () => {
 	console.log("Server is running under port 5000 ...");
