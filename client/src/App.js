@@ -7,6 +7,7 @@ import Login from "./screens/Login";
 import Profile from "./screens/Profile/Profile";
 import Signup from "./screens/Signup/Signup";
 import Post from "./screens/CreatePost/Post";
+import UserProfile from "./screens/UserProfile/UserProfile";
 import "./App.css";
 import { reducer, initialState } from "./reducers/userReducer";
 
@@ -28,7 +29,7 @@ const Routing = () => {
 			<Route exact path="/">
 				<Home />
 			</Route>
-			<Route path="/profile">
+			<Route exact path="/profile">
 				<Profile />
 			</Route>
 			<Route path="/login">
@@ -39,6 +40,9 @@ const Routing = () => {
 			</Route>
 			<Route path="/create">
 				<Post />
+			</Route>
+			<Route path="/profile/:userid">
+				<UserProfile />
 			</Route>
 		</Switch>
 	);

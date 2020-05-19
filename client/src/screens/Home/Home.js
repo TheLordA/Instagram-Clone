@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../App";
 import "./Home.css";
@@ -65,7 +66,9 @@ const Home = () => {
 		<div className="home" key={item._id}>
 			<div className="card home-card">
 				<h5>
-					{item.PostedBy.Name}
+					<Link to={item.PostedBy._id !== state._id ? `/profile/${item.PostedBy._id}` : "/profile"}>
+						{item.PostedBy.Name}
+					</Link>
 					{item.PostedBy._id == state._id && (
 						<i
 							className="material-icons"
