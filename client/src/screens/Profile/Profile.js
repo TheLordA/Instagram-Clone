@@ -31,7 +31,7 @@ const Profile = () => {
 				<div>
 					<h4>{state ? state.Name : "IsLoading ..."}</h4>
 					<div className="profile-detail">
-						<h5>40 posts</h5>
+						<h5>{data.length} posts</h5>
 						<h5>40 followers</h5>
 						<h5>40 following</h5>
 					</div>

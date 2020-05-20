@@ -5,9 +5,10 @@ import { UserContext } from "../../App";
 //import "./Profile.css";
 
 const UserProfile = () => {
-	const { userid } = useParams();
-	const [data, setData] = useState([]);
 	const { state, dispatch } = useContext(UserContext);
+	const { userid } = useParams();
+	const [data, setData] = useState(null);
+	const [showfollow, setShowFollow] = useState(true);
 	const config = {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -15,12 +16,52 @@ const UserProfile = () => {
 	};
 	useEffect(() => {
 		axios.get(`http://localhost:5000/user/${userid}`, config).then((res) => {
-			console.log(res.data);
-			console.log(res.data.user);
-			console.log(res.data.posts);
 			setData(res.data);
 		});
 	}, []);
+
+	const followUser = () => {
+		axios.put(`http://localhost:5000/follow`, { followId: userid }, config).then((result) => {
+			dispatch({
+				type: "UPDATE",
+				payload: { Followers: result.data.Followers, Following: result.data.Following },
+			});
+			localStorage.setItem("user", JSON.stringify(result.data));
+			setData((prevState) => {
+				return {
+					...prevState,
+					user: {
+						...prevState.user,
+						Followers: [...prevState.user.Followers, result._id],
+					},
+				};
+			});
+			setShowFollow(false);
+		});
+	};
+
+	const UnfollowUser = () => {
+		console.log(data);
+		axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
+			dispatch({
+				type: "UPDATE",
+				payload: { Followers: result.data.Followers, Following: result.data.Following },
+			});
+			console.log(result.data);
+			localStorage.setItem("user", JSON.stringify(result.data));
+			setData((prevState) => {
+				const newFollower = prevState.user.Followers.filter((item) => item !== result.data._id);
+				console.log(newFollower);
+				return {
+					...prevState,
+					user: {
+						...prevState.user,
+						Followers: newFollower,
+					},
+				};
+			});
+		});
+	};
 
 	return (
 		<>
@@ -39,9 +80,18 @@ const UserProfile = () => {
 							<h5>{data.user ? data.user.Email : "Is Loading ..."}</h5>
 							<div className="profile-detail">
 								<h5>{data.posts ? data.posts.length : "IsLoading..."} posts</h5>
-								<h5>40 followers</h5>
-								<h5>40 following</h5>
+								<h5>{data.user ? data.user.Followers.length : "IsLoading..."} followers </h5>
+								<h5>{data.user ? data.user.Following.length : "IsLoading..."} following </h5>
 							</div>
+							{showfollow ? (
+								<a class="waves-effect waves-light btn-small" onClick={() => followUser()}>
+									Follow
+								</a>
+							) : (
+								<a class="waves-effect waves-light btn-small" onClick={() => UnfollowUser()}>
+									UnFollow
+								</a>
+							)}
 						</div>
 					</div>
 					<div className="gallery">

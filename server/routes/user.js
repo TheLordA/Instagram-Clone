@@ -24,6 +24,8 @@ router.get("/user/:id", loginmiddleware, (req, res) => {
 							PhotoType: item.PhotoType,
 							Likes: item.Likes,
 							Comments: item.Comments,
+							Followers: item.Followers,
+							Following: item.Following,
 						});
 					});
 					res.json({ user, posts });
@@ -39,23 +41,29 @@ router.put("/follow", loginmiddleware, (req, res) => {
 		{
 			$push: { Followers: req.user._id },
 		},
-		{ new: true },
+		{
+			new: true,
+		},
 		(err, result) => {
-			if (err) return res.status(422).json({ Error: err });
-
+			if (err) {
+				return res.status(422).json({ error: err });
+			}
 			User.findByIdAndUpdate(
-				req.use._id,
+				req.user._id,
 				{
 					$push: { Following: req.body.followId },
 				},
 				{ new: true }
-			);
+			)
+				.select("-Password")
+				.then((result) => {
+					res.json(result);
+				})
+				.catch((err) => {
+					return res.status(422).json({ error: err });
+				});
 		}
-	)
-		.then((result) => {
-			res.json(result);
-		})
-		.catch((err) => res.status(422).json({ Error: err }));
+	);
 });
 
 router.put("/unfollow", loginmiddleware, (req, res) => {
@@ -64,23 +72,29 @@ router.put("/unfollow", loginmiddleware, (req, res) => {
 		{
 			$pull: { Followers: req.user._id },
 		},
-		{ new: true },
+		{
+			new: true,
+		},
 		(err, result) => {
-			if (err) return res.status(422).json({ Error: err });
-
+			if (err) {
+				return res.status(422).json({ error: err });
+			}
 			User.findByIdAndUpdate(
-				req.use._id,
+				req.user._id,
 				{
 					$pull: { Following: req.body.unfollowId },
 				},
 				{ new: true }
-			);
+			)
+				.select("-Password")
+				.then((result) => {
+					res.json(result);
+				})
+				.catch((err) => {
+					return res.status(422).json({ error: err });
+				});
 		}
-	)
-		.then((result) => {
-			res.json(result);
-		})
-		.catch((err) => res.status(422).json({ Error: err }));
+	);
 });
 
 module.exports = router;

@@ -69,7 +69,7 @@ const Home = () => {
 					<Link to={item.PostedBy._id !== state._id ? `/profile/${item.PostedBy._id}` : "/profile"}>
 						{item.PostedBy.Name}
 					</Link>
-					{item.PostedBy._id == state._id && (
+					{item.PostedBy._id === state._id && (
 						<i
 							className="material-icons"
 							onClick={() => {
