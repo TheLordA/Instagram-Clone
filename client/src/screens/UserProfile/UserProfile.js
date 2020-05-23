@@ -2,10 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../App";
-//import "./Profile.css";
 
 const UserProfile = () => {
-	const { state, dispatch } = useContext(UserContext);
+	const { dispatch } = useContext(UserContext);
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
 	const [showfollow, setShowFollow] = useState(true);
@@ -32,7 +31,7 @@ const UserProfile = () => {
 					...prevState,
 					user: {
 						...prevState.user,
-						Followers: [...prevState.user.Followers, result._id],
+						Followers: [...prevState.user.Followers, result.data._id],
 					},
 				};
 			});
@@ -41,17 +40,14 @@ const UserProfile = () => {
 	};
 
 	const UnfollowUser = () => {
-		console.log(data);
 		axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
 			dispatch({
 				type: "UPDATE",
 				payload: { Followers: result.data.Followers, Following: result.data.Following },
 			});
-			console.log(result.data);
 			localStorage.setItem("user", JSON.stringify(result.data));
 			setData((prevState) => {
 				const newFollower = prevState.user.Followers.filter((item) => item !== result.data._id);
-				console.log(newFollower);
 				return {
 					...prevState,
 					user: {
@@ -60,6 +56,7 @@ const UserProfile = () => {
 					},
 				};
 			});
+			setShowFollow(true);
 		});
 	};
 
@@ -84,13 +81,19 @@ const UserProfile = () => {
 								<h5>{data.user ? data.user.Following.length : "IsLoading..."} following </h5>
 							</div>
 							{showfollow ? (
-								<a class="waves-effect waves-light btn-small" onClick={() => followUser()}>
+								<button
+									className="waves-effect waves-light btn-small"
+									onClick={() => followUser()}
+								>
 									Follow
-								</a>
+								</button>
 							) : (
-								<a class="waves-effect waves-light btn-small" onClick={() => UnfollowUser()}>
+								<button
+									className="waves-effect waves-light btn-small"
+									onClick={() => UnfollowUser()}
+								>
 									UnFollow
-								</a>
+								</button>
 							)}
 						</div>
 					</div>
