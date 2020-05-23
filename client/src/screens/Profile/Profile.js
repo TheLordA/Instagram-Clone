@@ -14,7 +14,6 @@ const Profile = () => {
 	};
 	useEffect(() => {
 		axios.get(URL, config).then((res) => {
-			console.log(res.data.posts);
 			setData(res.data.posts);
 		});
 	}, []);
@@ -32,8 +31,8 @@ const Profile = () => {
 					<h4>{state ? state.Name : "IsLoading ..."}</h4>
 					<div className="profile-detail">
 						<h5>{data.length} posts</h5>
-						<h5>40 followers</h5>
-						<h5>40 following</h5>
+						<h5>{state ? state.Followers.length : "IsLoading ..."} followers</h5>
+						<h5>{state ? state.Following.length : "IsLoading ..."} following</h5>
 					</div>
 				</div>
 			</div>

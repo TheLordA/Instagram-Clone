@@ -72,13 +72,10 @@ router.post("/signin", (req, res) => {
 			bcrypt.compare(password, savedUser.Password).then((doMatch) => {
 				if (doMatch) {
 					// we will generate the token based on the ID of user
-					const token = jwt.sign(
-						{ _id: savedUser._id },
-						JWT_SECRET
-					);
+					const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
 					// retrieve the user info details and send it to the front
-					const { _id, Name, Email } = savedUser;
-					res.json({ token, user: { _id, Name, Email } });
+					const { _id, Name, Email, Followers, Following } = savedUser;
+					res.json({ token, user: { _id, Name, Email, Followers, Following } });
 				} else {
 					return res.json({
 						error: "Invalid Email or Password",

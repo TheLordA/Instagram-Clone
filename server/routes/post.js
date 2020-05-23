@@ -8,6 +8,31 @@ const router = express.Router();
 router.get("/allpost", loginmiddleware, (req, res) => {
 	Post.find()
 		.populate("PostedBy", "_id Name")
+		.populate("Comments.PostedBy", "_id Name")
+		.then((data) => {
+			let posts = [];
+			data.map((item) => {
+				posts.push({
+					_id: item._id,
+					Title: item.Title,
+					Body: item.Body,
+					PostedBy: item.PostedBy,
+					Photo: item.Photo.toString("base64"),
+					PhotoType: item.PhotoType,
+					Likes: item.Likes,
+					Comments: item.Comments,
+				});
+			});
+			res.json({ posts });
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+router.get("/subspost", loginmiddleware, (req, res) => {
+	Post.find({ PostedBy: { $in: req.user.Following } })
+		.populate("PostedBy", "_id Name")
+		.populate("Comments.PostedBy", "_id Name")
 		.then((data) => {
 			let posts = [];
 			data.map((item) => {
@@ -32,6 +57,7 @@ router.get("/allpost", loginmiddleware, (req, res) => {
 router.get("/mypost", loginmiddleware, (req, res) => {
 	Post.find({ PostedBy: req.user._id })
 		.populate("PostedBy", "_id Name")
+		.populate("Comments.PostedBy", "_id Name")
 		.then((data) => {
 			let posts = [];
 			data.map((item) => {
@@ -86,6 +112,7 @@ router.put("/like", loginmiddleware, (req, res) => {
 		{ new: true }
 	)
 		.populate("PostedBy", "_id Name")
+		.populate("Comments.PostedBy", "_id Name")
 		.exec((err, result) => {
 			if (err) return res.status(422).json({ Error: err });
 			else {
@@ -112,6 +139,7 @@ router.put("/Unlike", loginmiddleware, (req, res) => {
 		{ new: true }
 	)
 		.populate("PostedBy", "_id Name")
+		.populate("Comments.PostedBy", "_id Name")
 		.exec((err, result) => {
 			if (err) return res.status(422).json({ Error: err });
 			else {
