@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../constants");
-//const loginMiddle = require('../middleware/loginMiddleware');
+
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey("SENDGRID_API_KEY");
 
 const User = mongoose.model("User");
 const router = express.Router();
@@ -44,6 +46,13 @@ router.post("/signup", (req, res) => {
 				// We save our new user to DB
 				user.save()
 					.then((user) => {
+						const email = {
+							from: "no-reply@insta-clone.com",
+							to: user.Email,
+							subject: "Your account has been created successfully",
+							html: "<h1>Welcome to InstaClone</h1>",
+						};
+						sgMail.send(email);
 						res.json({ message: "Saved successfully " });
 					})
 					.catch((err) => {
@@ -89,3 +98,5 @@ router.post("/signin", (req, res) => {
 });
 
 module.exports = router;
+
+//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

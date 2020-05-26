@@ -29,3 +29,8 @@
 	width: 30%;
 	margin-bottom: 10px;
 }
+/* ========= profile pic ========*/
+.filepond--root {
+	width: 160px;
+	margin: 0 auto;
+}

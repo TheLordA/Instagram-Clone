@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+
 import axios from "axios";
 import M from "materialize-css";
-//import "./Signup.css";
 
 const Signup = () => {
 	const URL = `http://localhost:5000/signup`;
@@ -10,6 +10,7 @@ const Signup = () => {
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
+
 	const headers = {
 		"Content-Type": "application/json",
 	};
@@ -60,34 +61,19 @@ const Signup = () => {
 		<div className="mycard">
 			<div className="card auth-card input-field">
 				<h2>Instagram Clone</h2>
-				<input
-					type="text"
-					placeholder="name"
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-				/>
-				<input
-					type="text"
-					placeholder="email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-				/>
+				<input type="text" placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
+				<input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 				<input
 					type="text"
 					placeholder="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 				/>
-				<button
-					className="btn waves-effect waves-light"
-					onClick={() => PostData()}
-				>
+				<button className="btn waves-effect waves-light" onClick={() => PostData()}>
 					Sign Up
 				</button>
 				<h5>
-					<Link to="/login">
-						Already have an account ? Login
-					</Link>
+					<Link to="/login">Already have an account ? Login</Link>
 				</h5>
 			</div>
 		</div>

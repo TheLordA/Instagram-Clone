@@ -4,10 +4,10 @@ import axios from "axios";
 import { UserContext } from "../../App";
 
 const UserProfile = () => {
-	const { dispatch } = useContext(UserContext);
+	const { state, dispatch } = useContext(UserContext);
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
-	const [showfollow, setShowFollow] = useState(true);
+	const [showfollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : true);
 	const config = {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),

@@ -33,7 +33,6 @@ const Post = () => {
 	const PostData = () => {
 		const photoEncode = files[0].getFileEncodeBase64String();
 		const photoType = files[0].fileType;
-		//const user = JSON.parse(localStorage.getItem("user"));
 
 		Axios.post(
 			URL,
@@ -42,7 +41,6 @@ const Post = () => {
 				body,
 				photoEncode,
 				photoType,
-				//postedBy: user._id,
 			},
 			config
 		).then((rep) => {
