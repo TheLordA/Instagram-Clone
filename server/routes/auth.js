@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
+
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../constants");
 
@@ -17,7 +20,7 @@ router.get("/", (req, res) => {
 
 // Just to test that our middleware is working correctly
 /*
-router.get('/protected',loginMiddle,(req,res)=>{
+router.get('/protected',loginMiddleware,(req,res)=>{
     res.send('Hello from protected route');
 })
 */
@@ -97,6 +100,37 @@ router.post("/signin", (req, res) => {
 		});
 });
 
-module.exports = router;
+router.post("/reset-pwd", (req, res) => {
+	crypto.randomBytes(32, (err, buffer) => {
+		if (err) {
+			console.log(err);
+		}
+		const token = buffer.toString("hex");
+		User.findOne({ Email: req.body.email }).then((user) => {
+			if (!user) {
+				return res.status(422).json({ error: "User dont exists with that email" });
+			}
+			user.ResetToken = token;
+			user.ExpirationToken = Date.now() + 600000; // 10min in ms
+			user.save().then((result) => {
+				const email = {
+					from: "no-reply@insta-clone.com",
+					to: user.Email,
+					subject: "Password Reset",
+					html: `
+                     <p>A request has been made to change the password of your account </p>
+					 <h5>click on this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password</h5>
+					 <p> Or copy and paste the following link :</p>
+					 <h5>"http://localhost:3000/reset/${token}"</h5>
+					 <h5>The link is only valid for 10min</h5>
+					 <h5>If you weren't the sender of that request , you can just ignore the message</h5>
+                     `,
+				};
+				sgMail.send(email);
+				res.json({ message: "check your Email Inbox" });
+			});
+		});
+	});
+});
 
-//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
+module.exports = router;

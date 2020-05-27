@@ -33,10 +33,10 @@ const postSchema = new mongoose.Schema({
 	],
 });
 
-postSchema.virtual("PhotoPath").get(function () {
+/*postSchema.virtual("PhotoPath").get(function () {
 	if (this.Photo != null && this.PhotoType != null) {
 		return `data:${this.PhotoType};charset=utf-8;base64,${this.Photo.toString("base64")}`;
 	}
-});
+});*/
 
 mongoose.model("Post", postSchema);

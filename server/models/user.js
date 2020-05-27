@@ -14,6 +14,15 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	ResetToken: { type: String },
+	ExpirationToken: { type: Date },
+	Photo: {
+		type: Buffer,
+		default: "no photo",
+	},
+	PhotoType: {
+		type: String,
+	},
 	Followers: [{ type: ObjectId, ref: "User" }],
 	Following: [{ type: ObjectId, ref: "User" }],
 });

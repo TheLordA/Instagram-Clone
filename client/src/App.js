@@ -9,6 +9,7 @@ import Signup from "./screens/Signup/Signup";
 import Post from "./screens/CreatePost/Post";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SubscribePost from "./screens/SubscribePosts/SubscribePosts";
+import Reset from "./screens/ResetPassword/Reset.js";
 import "./App.css";
 import { reducer, initialState } from "./reducers/userReducer";
 
@@ -22,7 +23,7 @@ const Routing = () => {
 		if (user) {
 			dispatch({ type: "USER", payload: user });
 		} else {
-			history.push("/login");
+			if (!history.location.pathname.startsWith("/reset")) history.push("/login");
 		}
 	}, []);
 	return (
@@ -35,6 +36,9 @@ const Routing = () => {
 			</Route>
 			<Route path="/login">
 				<Login />
+			</Route>
+			<Route path="/reset">
+				<Reset />
 			</Route>
 			<Route path="/signup">
 				<Signup />
