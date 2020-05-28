@@ -10,6 +10,7 @@ import Post from "./screens/CreatePost/Post";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SubscribePost from "./screens/SubscribePosts/SubscribePosts";
 import Reset from "./screens/ResetPassword/Reset.js";
+import NewPass from "./screens/ResetPassword/NewPassword.js";
 import "./App.css";
 import { reducer, initialState } from "./reducers/userReducer";
 
@@ -37,8 +38,11 @@ const Routing = () => {
 			<Route path="/login">
 				<Login />
 			</Route>
-			<Route path="/reset">
+			<Route exact path="/reset">
 				<Reset />
+			</Route>
+			<Route path="/reset/:token">
+				<NewPass />
 			</Route>
 			<Route path="/signup">
 				<Signup />

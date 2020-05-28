@@ -5,34 +5,22 @@ import axios from "axios";
 import M from "materialize-css";
 
 const Login = () => {
-	const { state, dispatch } = useContext(UserContext);
+	const { dispatch } = useContext(UserContext);
 	const URL = `http://localhost:5000/signin`;
 	const history = useHistory();
 
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
-	const headers = {
-		"Content-Type": "application/json",
-	};
+
 	const PostData = () => {
 		if (
 			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
 				email
 			)
 		) {
-			axios.post(
-				URL,
-				{
-					password,
-					email,
-				},
-				{
-					headers: headers,
-				}
-			)
+			axios.post(URL, { password, email })
 				.then((res) => {
 					const data = res.data;
-					console.log(data);
 					if (data.error) {
 						M.toast({
 							html: data.error,
@@ -80,6 +68,9 @@ const Login = () => {
 				<h5>
 					<Link to="/signup">Does not have an account ? Create one</Link>
 				</h5>
+				<h6>
+					<Link to="/reset">Forgot the Password ?</Link>
+				</h6>
 			</div>
 		</div>
 	);

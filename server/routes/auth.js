@@ -133,4 +133,26 @@ router.post("/reset-pwd", (req, res) => {
 	});
 });
 
+router.post("/new-pwd", (req, res) => {
+	const Password = req.body.password;
+	const Token = req.body.token;
+	User.findOne({ ResetToken: Token, ExpirationToken: { $gt: Date.now() } })
+		.then((user) => {
+			if (!user) {
+				return res.status(422).json({ error: "Session expired ! Try Again with a new Request" });
+			}
+			bcrypt.hash(Password, 12).then((HashPwd) => {
+				user.password = HashPwd;
+				user.ResetToken = undefined;
+				user.ExpirationToken = undefined;
+				user.save().then((result) => {
+					res.json({ message: "Password Updated successfully" });
+				});
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+
 module.exports = router;
