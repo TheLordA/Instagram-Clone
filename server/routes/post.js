@@ -9,6 +9,7 @@ router.get("/allpost", loginmiddleware, (req, res) => {
 	Post.find()
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
+		.sort("-createdAt")
 		.then((data) => {
 			let posts = [];
 			data.map((item) => {
@@ -33,6 +34,7 @@ router.get("/subspost", loginmiddleware, (req, res) => {
 	Post.find({ PostedBy: { $in: req.user.Following } })
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
+		.sort("-createdAt")
 		.then((data) => {
 			let posts = [];
 			data.map((item) => {
@@ -58,6 +60,7 @@ router.get("/mypost", loginmiddleware, (req, res) => {
 	Post.find({ PostedBy: req.user._id })
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
+		.sort("-createdAt")
 		.then((data) => {
 			let posts = [];
 			data.map((item) => {
