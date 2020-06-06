@@ -20,7 +20,7 @@ function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
 			{"Copyright © "}
-			<Link to="/">Instagram Clone</Link> {new Date().getFullYear()}
+			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
 			{"."}
 		</Typography>
 	);
@@ -29,10 +29,10 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
 	Logo: {
 		fontFamily: "Grand Hotel, cursive",
-		marginBottom: "42px",
+		margin: "40px 0px",
 	},
 	paper: {
-		marginTop: theme.spacing(8),
+		marginTop: "50px",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -118,9 +118,7 @@ const Login = () => {
 						>
 							Instagram Clone
 						</Typography>
-						<Typography component="h1" variant="h5">
-							Sign in
-						</Typography>
+
 						<form className={classes.form} noValidate>
 							<TextField
 								variant="outlined"
