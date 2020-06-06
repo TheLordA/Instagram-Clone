@@ -30,9 +30,11 @@ const Routing = () => {
 	return (
 		<Switch>
 			<Route exact path="/">
+				<NavBar />
 				<Home />
 			</Route>
 			<Route exact path="/profile">
+				<NavBar />
 				<Profile />
 			</Route>
 			<Route path="/login">
@@ -48,12 +50,15 @@ const Routing = () => {
 				<Signup />
 			</Route>
 			<Route path="/create">
+				<NavBar />
 				<Post />
 			</Route>
 			<Route path="/profile/:userid">
+				<NavBar />
 				<UserProfile />
 			</Route>
 			<Route path="/feed">
+				<NavBar />
 				<SubscribePost />
 			</Route>
 		</Switch>
@@ -65,7 +70,6 @@ function App() {
 	return (
 		<UserContext.Provider value={{ state, dispatch }}>
 			<BrowserRouter>
-				<NavBar />
 				<Routing />
 			</BrowserRouter>
 		</UserContext.Provider>

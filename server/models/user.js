@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
 	ExpirationToken: { type: Date },
 	Photo: {
 		type: Buffer,
-		default: "no photo",
 	},
 	PhotoType: {
 		type: String,

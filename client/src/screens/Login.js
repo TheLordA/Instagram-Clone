@@ -4,13 +4,64 @@ import { UserContext } from "../App";
 import axios from "axios";
 import M from "materialize-css";
 
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { Paper } from "@material-ui/core";
+
+function Copyright() {
+	return (
+		<Typography variant="body2" color="textSecondary" align="center">
+			{"Copyright © "}
+			<Link to="/">Instagram Clone</Link> {new Date().getFullYear()}
+			{"."}
+		</Typography>
+	);
+}
+
+const useStyles = makeStyles((theme) => ({
+	Logo: {
+		fontFamily: "Grand Hotel, cursive",
+		marginBottom: "42px",
+	},
+	paper: {
+		marginTop: theme.spacing(8),
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+	},
+	image: {
+		backgroundSize: "cover",
+		backgroundColor: "#fafafa",
+		backgroundImage: "url(https://source.unsplash.com/random)",
+		backgroundRepeat: "no-repeat",
+		backgroundPosition: "center",
+	},
+	form: {
+		width: "100%", // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+}));
+
 const Login = () => {
 	const { dispatch } = useContext(UserContext);
 	const URL = `http://localhost:5000/signin`;
 	const history = useHistory();
+	const classes = useStyles();
 
-	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [showSignIn, setShowSignIn] = useState(false);
 
 	const PostData = () => {
 		if (
@@ -51,28 +102,85 @@ const Login = () => {
 			});
 		}
 	};
+
 	return (
-		<div className="mycard">
-			<div className="card auth-card input-field">
-				<h2>Instagram Clone</h2>
-				<input type="text" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-				<input
-					type="password"
-					placeholder="password"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-				<button className="btn waves-effect waves-light" onClick={() => PostData()}>
-					Login
-				</button>
-				<h5>
-					<Link to="/signup">Does not have an account ? Create one</Link>
-				</h5>
-				<h6>
-					<Link to="/reset">Forgot the Password ?</Link>
-				</h6>
-			</div>
-		</div>
+		<Grid container>
+			<Grid className={classes.image} item sm={4} md={6} />
+			<Grid item xs={12} sm={8} md={6}>
+				<Container component="main" maxWidth="xs" style={{ paddingBottom: "64px" }}>
+					<CssBaseline />
+					<div className={classes.paper}>
+						<Typography
+							className={classes.Logo}
+							variant="h2"
+							gutterBottom
+							style={{ fontFamily: "Grand Hotel, cursive " }}
+						>
+							Instagram Clone
+						</Typography>
+						<Typography component="h1" variant="h5">
+							Sign in
+						</Typography>
+						<form className={classes.form} noValidate>
+							<TextField
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								id="email"
+								label="Email Address"
+								name="email"
+								autoComplete="email"
+								autoFocus
+								value={email}
+								onChange={(e) => {
+									setEmail(e.target.value);
+									console.log(e.target.value);
+								}}
+							/>
+							<TextField
+								variant="outlined"
+								margin="normal"
+								required
+								fullWidth
+								name="password"
+								label="Password"
+								type="password"
+								id="password"
+								autoComplete="current-password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+							<FormControlLabel
+								control={<Checkbox value="remember" color="primary" />}
+								label="Remember me"
+							/>
+							<Button
+								fullWidth
+								variant="contained"
+								color="primary"
+								className={classes.submit}
+								disabled={email !== "" && password !== "" ? false : true}
+								onClick={() => PostData()}
+							>
+								Sign In
+							</Button>
+							<Grid container>
+								<Grid item xs>
+									<Link to="/reset">Forgot password?</Link>
+								</Grid>
+								<Grid item>
+									<Link to="/signup">{"Don't have an account? Sign Up"}</Link>
+								</Grid>
+							</Grid>
+						</form>
+					</div>
+					<Box mt={8}>
+						<Copyright />
+					</Box>
+				</Container>
+			</Grid>
+		</Grid>
 	);
 };
 
