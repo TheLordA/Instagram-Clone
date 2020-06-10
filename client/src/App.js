@@ -30,7 +30,7 @@ const Routing = () => {
 	return (
 		<Switch>
 			<Route exact path="/">
-				<NavBar />
+				<NavBar nav="recents" />
 				<Home />
 			</Route>
 			<Route exact path="/profile">
@@ -58,7 +58,7 @@ const Routing = () => {
 				<UserProfile />
 			</Route>
 			<Route path="/feed">
-				<NavBar />
+				<NavBar nav="favorites" />
 				<SubscribePost />
 			</Route>
 		</Switch>
