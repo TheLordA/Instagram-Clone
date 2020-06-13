@@ -87,8 +87,9 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: "3px",
 	},
 	comments_icon: {
+		height: "30px",
 		paddingLeft: "0px",
-		paddingTop: "0px",
+		paddingTop: "13px",
 		paddingRight: "8px",
 		paddingBottom: "0px",
 	},
@@ -98,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		height: "40px",
+	},
+	links: {
+		textDecoration: "none",
 	},
 }));
 
@@ -184,7 +188,10 @@ const Home = () => {
 						</Avatar>
 					}
 					title={
-						<Link to={item.PostedBy._id !== state._id ? `/profile/${item.PostedBy._id}` : "/profile"}>
+						<Link
+							className={classes.links}
+							to={item.PostedBy._id !== state._id ? `/profile/${item.PostedBy._id}` : "/profile"}
+						>
 							{item.PostedBy.Name}
 						</Link>
 					}
@@ -248,6 +255,7 @@ const Home = () => {
 												color="textPrimary"
 											>
 												<Link
+													className={classes.links}
 													to={
 														cmt.PostedBy._id !== state._id
 															? `/profile/${cmt.PostedBy._id}`

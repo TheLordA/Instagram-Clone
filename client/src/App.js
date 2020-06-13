@@ -13,6 +13,7 @@ import Reset from "./screens/ResetPassword/Reset.js";
 import NewPass from "./screens/ResetPassword/NewPassword.js";
 import "./App.css";
 import { reducer, initialState } from "./reducers/userReducer";
+import Profile_beta from "./screens/Profile/Profile_beta";
 
 export const UserContext = createContext();
 
@@ -36,6 +37,10 @@ const Routing = () => {
 			<Route exact path="/profile">
 				<NavBar />
 				<Profile />
+			</Route>
+			<Route exact path="/profile_beta">
+				<NavBar />
+				<Profile_beta />
 			</Route>
 			<Route path="/login">
 				<Login />

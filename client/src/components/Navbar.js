@@ -33,104 +33,101 @@ import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsAct
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: "100%",
+	},
+	inline: {
+		display: "inline",
+	},
+	grow: {
+		flexGrow: 1,
+	},
+	title: {
+		display: "none",
+		[theme.breakpoints.up("sm")]: {
+			display: "block",
+		},
+		fontFamily: "Grand Hotel, cursive",
+		color: "rgba(0, 0, 0, 0.54)",
+	},
+	search: {
+		position: "relative",
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: "rgba(0, 0, 0, 0.075)",
+		"&:hover": {
+			backgroundColor: "rgba(0, 0, 0, 0.03)",
+		},
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: "100%",
+		[theme.breakpoints.up("sm")]: {
+			marginLeft: theme.spacing(3),
+			width: "auto",
+		},
+		margin: "0px auto",
+	},
+	searchIcon: {
+		padding: theme.spacing(0, 2),
+		height: "100%",
+		position: "absolute",
+		pointerEvents: "none",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		color: "rgba(0, 0, 0, 0.54)",
+	},
+	inputRoot: {
+		color: "inherit",
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		transition: theme.transitions.create("width"),
+		width: "100%",
+		[theme.breakpoints.up("sm")]: {
+			width: "30ch",
+		},
+		color: "#000000",
+	},
+	sectionDesktop: {
+		display: "none",
+		[theme.breakpoints.up("md")]: {
+			display: "flex",
+		},
+	},
+	sectionMobile: {
+		display: "flex",
+		[theme.breakpoints.up("md")]: {
+			display: "none",
+		},
+	},
+	paper: {
+		position: "absolute",
+		width: 400,
+		backgroundColor: theme.palette.background.paper,
+		border: "1px solid rgba(0, 0, 0, 0.015)",
+		boxShadow: theme.shadows[4],
+		padding: theme.spacing(2, 4, 3),
+		borderRadius: "10px",
+		"&:focus": {
+			border: "1px solid rgba(0, 0, 0, 0.015)",
+		},
+	},
+	links: {
+		textDecoration: "none",
+	},
+}));
+
 const Navbar = (props) => {
 	const { state, dispatch } = useContext(UserContext);
 	const history = useHistory();
 	const [search, setSearch] = useState([]);
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			width: "100%",
-		},
-		inline: {
-			display: "inline",
-		},
-		grow: {
-			flexGrow: 1,
-		},
-		title: {
-			display: "none",
-			[theme.breakpoints.up("sm")]: {
-				display: "block",
-			},
-			fontFamily: "Grand Hotel, cursive",
-			color: "rgba(0, 0, 0, 0.54)",
-		},
-		search: {
-			position: "relative",
-			borderRadius: theme.shape.borderRadius,
-			backgroundColor: "rgba(0, 0, 0, 0.075)",
-			"&:hover": {
-				backgroundColor: "rgba(0, 0, 0, 0.03)",
-			},
-			marginRight: theme.spacing(2),
-			marginLeft: 0,
-			width: "100%",
-			[theme.breakpoints.up("sm")]: {
-				marginLeft: theme.spacing(3),
-				width: "auto",
-			},
-			margin: "0px auto",
-		},
-		searchIcon: {
-			padding: theme.spacing(0, 2),
-			height: "100%",
-			position: "absolute",
-			pointerEvents: "none",
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			color: "rgba(0, 0, 0, 0.54)",
-		},
-		inputRoot: {
-			color: "inherit",
-		},
-		inputInput: {
-			padding: theme.spacing(1, 1, 1, 0),
-			// vertical padding + font size from searchIcon
-			paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-			transition: theme.transitions.create("width"),
-			width: "100%",
-			[theme.breakpoints.up("sm")]: {
-				width: "38ch",
-			},
-			color: "#000000",
-		},
-		sectionDesktop: {
-			display: "none",
-			[theme.breakpoints.up("md")]: {
-				display: "flex",
-			},
-		},
-		sectionMobile: {
-			display: "flex",
-			[theme.breakpoints.up("md")]: {
-				display: "none",
-			},
-		},
-		paper: {
-			position: "absolute",
-			width: 400,
-			backgroundColor: theme.palette.background.paper,
-			border: "1px solid rgba(0, 0, 0, 0.015)",
-			boxShadow: theme.shadows[4],
-			padding: theme.spacing(2, 4, 3),
-			borderRadius: "10px",
-			"&:focus": {
-				border: "1px solid rgba(0, 0, 0, 0.015)",
-			},
-		},
-		links: {
-			textDecoration: "none",
-		},
-	}));
-
-	// Material-Ui Stuff
+	// Material-Ui
 	const classes = useStyles();
-	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 	// getModalStyle is not a pure function, we roll the style only on the first render
