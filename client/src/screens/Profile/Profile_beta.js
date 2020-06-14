@@ -27,19 +27,13 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 20,
 	},
 	settings: {},
-	follow_info: { paddingRight: 40 },
-	post_box: { padding: 16 },
 }));
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
 		<div role="tabpanel" hidden={value !== index} {...other}>
-			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
+			{value === index && <Box p={3}>{children}</Box>}
 		</div>
 	);
 }
@@ -98,12 +92,12 @@ const ProfilePage = () => {
 							<Box mb="20px">
 								<Grid container spacing={4}>
 									<Grid item>
-										<Typography variant="subtitle1" className={classes.follow_info}>
+										<Typography variant="subtitle1">
 											<b>{data.length}</b> posts
 										</Typography>
 									</Grid>
 									<Grid item>
-										<Typography variant="subtitle1" className={classes.follow_info}>
+										<Typography variant="subtitle1">
 											<b>{state ? state.Followers.length : "IsLoading ..."}</b>{" "}
 											followers
 										</Typography>
@@ -138,12 +132,12 @@ const ProfilePage = () => {
 					<Tab label="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
 				</Tabs>
 				<TabPanel value={value} index="Posts">
-					<Grid container spacing={32}>
+					<Grid container spacing={2}>
 						{data.map((item) => (
-							<Grid item xs={4} className={classes.post_box}>
+							<Grid item xs={4} key={item.id}>
 								<img
 									alt="post"
-									style={{ width: "100%" }}
+									style={{ width: "100%", height: "100%" }}
 									src={`data:${item.photoType};base64,${item.photo}`}
 								/>
 							</Grid>
@@ -157,48 +151,6 @@ const ProfilePage = () => {
 							/>
 						</Grid>
 						<Grid item xs={4} className={classes.post_box}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4}>
 							<img
 								alt="post"
 								style={{ width: "100%" }}
