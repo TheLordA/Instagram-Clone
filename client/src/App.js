@@ -1,20 +1,18 @@
 import React, { useEffect, createContext, useReducer, useContext } from "react";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
-
+import { reducer, initialState } from "./reducers/userReducer";
 import NavBar from "./components/Navbar";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login";
-import Profile from "./screens/Profile/Profile";
 import Signup from "./screens/Signup/Signup";
 import Post from "./screens/CreatePost/Post";
-import UserProfile from "./screens/UserProfile/UserProfile";
-import UserProfile_beta from "./screens/UserProfile/UserProfile_beta";
+import CreatePost from "./screens/CreatePost/CreatePost.js";
+import Profile from "./screens/Profile/Profile_beta";
+import UserProfile from "./screens/UserProfile/UserProfile_beta";
 import SubscribePost from "./screens/SubscribePosts/SubscribePosts";
 import Reset from "./screens/ResetPassword/Reset.js";
 import NewPass from "./screens/ResetPassword/NewPassword.js";
 import "./App.css";
-import { reducer, initialState } from "./reducers/userReducer";
-import Profile_beta from "./screens/Profile/Profile_beta";
 
 export const UserContext = createContext();
 
@@ -37,7 +35,7 @@ const Routing = () => {
 			</Route>
 			<Route exact path="/profile">
 				<NavBar />
-				<Profile_beta />
+				<Profile />
 			</Route>
 			<Route path="/login">
 				<Login />
@@ -55,13 +53,13 @@ const Routing = () => {
 				<NavBar />
 				<Post />
 			</Route>
+			<Route path="/create_beta">
+				<NavBar />
+				<CreatePost />
+			</Route>
 			<Route path="/profile/:userid">
 				<NavBar />
 				<UserProfile />
-			</Route>
-			<Route path="/profile_beta/:userid">
-				<NavBar />
-				<UserProfile_beta />
 			</Route>
 			<Route path="/feed">
 				<NavBar nav="favorites" />
