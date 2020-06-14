@@ -110,9 +110,7 @@ const ProfilePage = () => {
 									</Grid>
 								</Grid>
 							</Box>
-							<Typography variant="subtitle1" bold>
-								Siriwat Kunaporn
-							</Typography>
+							<Typography variant="subtitle1">Siriwat Kunaporn</Typography>
 							<Typography variant="subtitle1">Bangkok Christian College</Typography>
 							<Typography variant="subtitle1">CU intania 96.</Typography>
 						</Grid>
@@ -127,9 +125,9 @@ const ProfilePage = () => {
 					TabIndicatorProps={{ style: { transform: "translateY(-70px)", backgroundColor: "#262626" } }}
 				>
 					<Tab label="Posts" value="Posts" icon={<Icon>grid_on_outlined</Icon>} />
-					<Tab label="IGTV" icon={<Icon>live_tv</Icon>} disabled />
-					<Tab label="Saved" icon={<Icon>bookmark_border_outlined</Icon>} disabled />
-					<Tab label="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
+					<Tab label="IGTV" value="IGTV" icon={<Icon>live_tv</Icon>} disabled />
+					<Tab label="Saved" value="Saved" icon={<Icon>bookmark_border_outlined</Icon>} disabled />
+					<Tab label="Tagged" value="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
 				</Tabs>
 				<TabPanel value={value} index="Posts">
 					<Grid container spacing={2}>

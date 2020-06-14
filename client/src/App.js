@@ -36,10 +36,6 @@ const Routing = () => {
 			</Route>
 			<Route exact path="/profile">
 				<NavBar />
-				<Profile />
-			</Route>
-			<Route exact path="/profile_beta">
-				<NavBar />
 				<Profile_beta />
 			</Route>
 			<Route path="/login">
