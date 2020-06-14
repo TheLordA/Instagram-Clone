@@ -8,6 +8,7 @@ import Profile from "./screens/Profile/Profile";
 import Signup from "./screens/Signup/Signup";
 import Post from "./screens/CreatePost/Post";
 import UserProfile from "./screens/UserProfile/UserProfile";
+import UserProfile_beta from "./screens/UserProfile/UserProfile_beta";
 import SubscribePost from "./screens/SubscribePosts/SubscribePosts";
 import Reset from "./screens/ResetPassword/Reset.js";
 import NewPass from "./screens/ResetPassword/NewPassword.js";
@@ -57,6 +58,10 @@ const Routing = () => {
 			<Route path="/profile/:userid">
 				<NavBar />
 				<UserProfile />
+			</Route>
+			<Route path="/profile_beta/:userid">
+				<NavBar />
+				<UserProfile_beta />
 			</Route>
 			<Route path="/feed">
 				<NavBar nav="favorites" />
