@@ -51,10 +51,6 @@ const Routing = () => {
 			</Route>
 			<Route path="/create">
 				<NavBar />
-				<Post />
-			</Route>
-			<Route path="/create_beta">
-				<NavBar />
 				<CreatePost />
 			</Route>
 			<Route path="/profile/:userid">

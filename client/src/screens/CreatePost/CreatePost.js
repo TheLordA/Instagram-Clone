@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import Axios from "axios";
+// Material-UI deps
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -8,7 +11,10 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Fade from "@material-ui/core/Fade";
+import Alert from "@material-ui/lab/Alert";
+// FilePond deps
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -42,19 +48,84 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(2),
 	},
 	resetContainer: {
-		padding: theme.spacing(3),
+		padding: "6px 24px",
+	},
+	TextField: {
+		margin: "10px 0px",
+	},
+	reviewRoot: {
+		maxWidth: 400,
+		flexGrow: 1,
+		margin: "10px auto",
+	},
+	reviewImg: {
+		height: 255,
+		display: "block",
+		maxWidth: 400,
+		overflow: "hidden",
+		width: "100%",
+	},
+	reviewBottom: {
+		display: "flex",
+		alignItems: "center",
+		height: 50,
+		paddingLeft: theme.spacing(4),
+		backgroundColor: theme.palette.background.default,
+	},
+	finishStyle: {
+		width: "fit-content",
+		margin: "auto",
 	},
 }));
 
 function getSteps() {
-	return ["Select you image", "Add a post description", "Review the post"];
+	return ["Select you image", "Tag a Friend", "Submit the post"];
 }
 
 const CreatePoste = () => {
 	const classes = useStyles();
-	const [activeStep, setActiveStep] = useState(0);
+	const history = useHistory();
 	const [files, setFiles] = useState([]);
+	const [caption, setCaption] = useState("");
+	const [activeStep, setActiveStep] = useState(0);
 	const steps = getSteps();
+
+	const [query, setQuery] = useState("idle");
+	const timerRef = useRef();
+
+	useEffect(
+		() => () => {
+			clearTimeout(timerRef.current);
+		},
+		[]
+	);
+	const URL = `http://localhost:5000/createpost`;
+	const config = {
+		headers: {
+			Authorization: "Bearer " + localStorage.getItem("jwt"),
+		},
+	};
+
+	const PostData = () => {
+		// the Index 0 means the first file , we will add in the future the support of multiple
+		// images upload , the maw will be 10 images per post
+		const photoEncode = files[0].getFileEncodeBase64String();
+		const photoType = files[0].fileType;
+		Axios.post(
+			URL,
+			{
+				title: caption,
+				body: caption,
+				photoEncode,
+				photoType,
+			},
+			config
+		).then((rep) => {
+			if (rep.data.message) {
+				setQuery("success");
+			}
+		});
+	};
 
 	const getStepContent = (step) => {
 		switch (step) {
@@ -62,6 +133,7 @@ const CreatePoste = () => {
 				return (
 					<div className={classes.filesContainer}>
 						<FilePond
+							labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
 							files={files}
 							allowMultiple={false}
 							onupdatefiles={setFiles}
@@ -70,24 +142,23 @@ const CreatePoste = () => {
 							acceptedFileTypes={["image/jpeg", "image/png", "images/gif"]}
 							required={true}
 						/>
+						<TextField
+							className={classes.TextField}
+							id="outlined-search"
+							label="Caption"
+							type="text"
+							variant="outlined"
+							fullWidth="true"
+							multiline="true"
+							value={caption}
+							onChange={(e) => setCaption(e.target.value)}
+						/>
 					</div>
 				);
 			case 1:
-				return (
-					<TextField
-						id="outlined-search"
-						label="Post Body"
-						type="text"
-						variant="outlined"
-						fullWidth="true"
-						multiline="true"
-					/>
-				);
+				return "This functionality isn't available for the moment";
 			case 2:
-				return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
+				return;
 			default:
 				return "Unknown step";
 		}
@@ -101,12 +172,23 @@ const CreatePoste = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
-	const handleReset = () => {
-		setActiveStep(0);
+	const handleClickQuery = () => {
+		clearTimeout(timerRef.current);
+		if (query !== "idle") {
+			setQuery("idle");
+			return;
+		}
+		setQuery("progress");
+		timerRef.current = setTimeout(() => {
+			history.push("/");
+		}, 4000);
 	};
 
 	const handleSubmit = () => {
-		console.log("finnish line");
+		handleNext();
+		handleClickQuery();
+		PostData();
+		console.log("submitted successfully");
 	};
 
 	return (
@@ -127,29 +209,42 @@ const CreatePoste = () => {
 										Back
 									</Button>
 									<Button
-										disabled={files.length === 0}
+										disabled={files.length === 0 || caption === ""}
 										variant="contained"
 										color="primary"
-										onClick={handleNext}
+										onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
 										className={classes.button}
 									>
-										{activeStep === steps.length - 1 ? "Finish" : "Next"}
+										{activeStep === steps.length - 1 ? "Submit" : "Next"}
 									</Button>
 								</div>
 							</div>
 						</StepContent>
 					</Step>
 				))}
-			</Stepper>
-			{activeStep ===
-				steps.length(
+				{activeStep === steps.length && (
 					<Paper square elevation={0} className={classes.resetContainer}>
-						<Typography>All steps completed - you&apos;re finished</Typography>
-						<Button onClick={handleReset} className={classes.button}>
-							Reset
-						</Button>
+						<div className={classes.finishStyle}>
+							{query === "success" ? (
+								<Alert variant="outlined" severity="success">
+									Your post has been successfully submitted — check it out!
+								</Alert>
+							) : (
+								<Fade
+									className={classes.finishStyle}
+									in={query === "progress"}
+									style={{
+										transitionDelay: query === "progress" ? "100ms" : "0ms",
+									}}
+									unmountOnExit
+								>
+									<CircularProgress />
+								</Fade>
+							)}
+						</div>
 					</Paper>
 				)}
+			</Stepper>
 		</div>
 	);
 };
