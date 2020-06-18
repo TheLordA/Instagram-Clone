@@ -14,7 +14,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Paper } from "@material-ui/core";
 
 function Copyright() {
 	return (
@@ -61,14 +60,11 @@ const Login = () => {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [showSignIn, setShowSignIn] = useState(false);
+
+	const emailRegex = /^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
 
 	const PostData = () => {
-		if (
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-				email
-			)
-		) {
+		if (emailRegex.test(email)) {
 			axios.post(URL, { password, email })
 				.then((res) => {
 					const data = res.data;
@@ -133,7 +129,6 @@ const Login = () => {
 								value={email}
 								onChange={(e) => {
 									setEmail(e.target.value);
-									console.log(e.target.value);
 								}}
 							/>
 							<TextField

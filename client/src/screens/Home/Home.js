@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: "10px",
 	},
 	media: {
-		height: 0,
+		//height: 0,
 		paddingTop: "56.25%", // 16:9
 		height: "max-content",
 	},
@@ -112,9 +112,6 @@ const Home = () => {
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
-
-	const URL = `http://localhost:5000/allpost`;
-
 	const config = {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -122,6 +119,7 @@ const Home = () => {
 	};
 
 	useEffect(() => {
+		const URL = `http://localhost:5000/allpost`;
 		axios.get(URL, config).then((res) => {
 			setData(res.data.posts);
 		});
@@ -273,7 +271,7 @@ const Home = () => {
 							</ListItem>
 						);
 					})}
-					{item.Comments.length == 0 ? (
+					{item.Comments.length === 0 ? (
 						<ListItem alignItems="flex-start" style={{ left: "38%" }}>
 							<Typography variant="caption" display="block" gutterBottom>
 								No Comments yet

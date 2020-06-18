@@ -39,7 +39,6 @@ function TabPanel(props) {
 }
 
 const ProfilePage = () => {
-	const URL = `http://localhost:5000/mypost`;
 	const [data, setData] = useState([]);
 	const [value, setValue] = useState("Posts");
 	const classes = useStyles();
@@ -50,6 +49,7 @@ const ProfilePage = () => {
 		},
 	};
 	useEffect(() => {
+		const URL = `http://localhost:5000/mypost`;
 		axios.get(URL, config).then((res) => {
 			setData(res.data.posts);
 		});

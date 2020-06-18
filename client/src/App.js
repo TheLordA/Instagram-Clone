@@ -5,10 +5,9 @@ import NavBar from "./components/Navbar";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup/Signup";
-import Post from "./screens/CreatePost/Post";
 import CreatePost from "./screens/CreatePost/CreatePost.js";
 import Profile from "./screens/Profile/Profile_beta";
-import UserProfile from "./screens/UserProfile/UserProfile_beta";
+import UserProfile from "./screens/UserProfile/UserProfile";
 import SubscribePost from "./screens/SubscribePosts/SubscribePosts";
 import Reset from "./screens/ResetPassword/Reset.js";
 import NewPass from "./screens/ResetPassword/NewPassword.js";
@@ -18,7 +17,7 @@ export const UserContext = createContext();
 
 const Routing = () => {
 	const history = useHistory();
-	const { state, dispatch } = useContext(UserContext);
+	const { dispatch } = useContext(UserContext);
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("user"));
 		if (user) {
