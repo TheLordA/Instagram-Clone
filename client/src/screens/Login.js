@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
-import M from "materialize-css";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +13,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Alert from "@material-ui/lab/Alert";
 
 function Copyright() {
 	return (
@@ -60,31 +60,31 @@ const Login = () => {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
-	const emailRegex = /^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+	const [formatValidation, setFormatValidation] = useState(false);
+	const [authValidation, setAuthValidation] = useState(false);
 
 	const PostData = () => {
-		if (emailRegex.test(email)) {
+		// the Regex email validation was token from : https://emailregex.com/
+		if (
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+				email
+			)
+		) {
 			axios.post(URL, { password, email })
 				.then((res) => {
 					const data = res.data;
 					if (data.error) {
-						M.toast({
-							html: data.error,
-							classes: "#e57373 red lighten-2",
-						});
+						setFormatValidation(false);
+						setAuthValidation(true);
 					} else {
 						// we store our generated token in order to use it to access protected endpoints
 						localStorage.setItem("jwt", data.token);
-
 						// we also store the user details
 						localStorage.setItem("user", JSON.stringify(data.user));
 						dispatch({ type: "USER", payload: data.user });
 						//we can show that success PopUp or not depends on dev choice
-						/*M.toast({
-									html: "Signed In successfully",
-									classes: "#66bb6a green lighten-1",
-								});*/
+						//
+						// we redirect the user to home page
 						history.push("/");
 					}
 				})
@@ -92,10 +92,8 @@ const Login = () => {
 					console.log(err);
 				});
 		} else {
-			M.toast({
-				html: "Invalid Email",
-				classes: "#e57373 red lighten-2",
-			});
+			setAuthValidation(false);
+			setFormatValidation(true);
 		}
 	};
 
@@ -114,7 +112,16 @@ const Login = () => {
 						>
 							Instagram Clone
 						</Typography>
-
+						{formatValidation ? (
+							<Alert variant="outlined" severity="error">
+								Invalid Email format — check it out!
+							</Alert>
+						) : null}
+						{authValidation ? (
+							<Alert variant="outlined" severity="error">
+								Invalid given Email/Password — check it out!
+							</Alert>
+						) : null}
 						<form className={classes.form} noValidate>
 							<TextField
 								variant="outlined"

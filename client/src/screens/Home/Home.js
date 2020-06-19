@@ -150,6 +150,7 @@ const Home = () => {
 	};
 
 	const makeComment = (text, postId) => {
+		setComment("");
 		axios.put(`http://localhost:5000/comment`, { text, postId }, config)
 			.then((result) => {
 				const newData = data.map((item) => {

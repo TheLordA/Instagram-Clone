@@ -49,6 +49,7 @@ router.post("/signup", (req, res) => {
 				// We save our new user to DB
 				user.save()
 					.then((user) => {
+						// after saving the user into DB we send a confirmation email
 						const email = {
 							from: "no-reply@insta-clone.com",
 							to: user.Email,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -13,8 +13,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
-import M from "materialize-css";
+import Alert from "@material-ui/lab/Alert";
 
 function Copyright() {
 	return (
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "40px",
 	},
 	paper: {
-		marginTop: theme.spacing(8),
+		marginTop: "10px",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -60,10 +59,27 @@ const Signup = () => {
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
-	const emailRegex = /^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+	const [formatValidation, setFormatValidation] = useState(false);
+	const [authValidation, setAuthValidation] = useState(false);
+	const [confirmValidation, setConfirmValidation] = useState(false);
+
+	const timerRef = useRef();
+
+	useEffect(
+		() => () => {
+			clearTimeout(timerRef.current);
+		},
+		[]
+	);
 
 	const PostData = () => {
-		if (emailRegex.test(email)) {
+		// the Regex email validation was token from : https://emailregex.com/
+		// Here we check just if the given email has a correct format
+		if (
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+				email
+			)
+		) {
 			axios.post(URL, {
 				name,
 				password,
@@ -73,34 +89,46 @@ const Signup = () => {
 					const data = res.data;
 					console.log(data);
 					if (data.error) {
-						M.toast({
-							html: data.error,
-							classes: "#e57373 red lighten-2",
-						});
+						setFormatValidation(false);
+						setAuthValidation(true);
 					} else {
-						M.toast({
-							html: data.message,
-							classes: "#66bb6a green lighten-1",
-						});
-						history.push("/login");
+						// show the confirmation message
+						setConfirmValidation(true);
+						// set a time before we redirect the user to login page
+						timerRef.current = setTimeout(() => {
+							history.push("/login");
+						}, 3000);
 					}
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		} else {
-			M.toast({
-				html: "Invalid Email",
-				classes: "#e57373 red lighten-2",
-			});
+			setAuthValidation(false);
+			setFormatValidation(true);
 		}
 	};
 	return (
 		<Container component="main" maxWidth="xs">
+			<CssBaseline />
 			<Typography className={classes.Logo} variant="h2">
 				Instagram Clone
 			</Typography>
-			<CssBaseline />
+			{formatValidation ? (
+				<Alert variant="outlined" severity="error">
+					Invalid Email format — check it out!
+				</Alert>
+			) : null}
+			{authValidation ? (
+				<Alert variant="outlined" severity="error">
+					This Email is already token — check it out!
+				</Alert>
+			) : null}
+			{confirmValidation ? (
+				<Alert variant="outlined" severity="success">
+					Your account has been created successfully — check it out!
+				</Alert>
+			) : null}
 			<div className={classes.paper}>
 				<form className={classes.form} noValidate>
 					<Grid container spacing={2}>
