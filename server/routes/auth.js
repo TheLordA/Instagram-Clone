@@ -109,11 +109,17 @@ router.post("/reset-pwd", (req, res) => {
 		const token = buffer.toString("hex");
 		User.findOne({ Email: req.body.email }).then((user) => {
 			if (!user) {
-				return res.status(422).json({ error: "User dont exists with that email" });
+				console.log("simple check of the error source");
+				return res.json({ error: "No User exists with that email" });
 			}
+
 			user.ResetToken = token;
 			user.ExpirationToken = Date.now() + 600000; // 10min in ms
 			user.save().then((result) => {
+				// this section will be fully functional after adding the SendGrid API Key
+				// in order to use this feature
+				// the following is an example of Email template
+
 				const email = {
 					from: "no-reply@insta-clone.com",
 					to: user.Email,
@@ -128,6 +134,7 @@ router.post("/reset-pwd", (req, res) => {
                      `,
 				};
 				sgMail.send(email);
+
 				res.json({ message: "check your Email Inbox" });
 			});
 		});

@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
 	const { dispatch } = useContext(UserContext);
-	const URL = `http://localhost:5000/signin`;
+
 	const history = useHistory();
 	const classes = useStyles();
 
@@ -64,6 +64,7 @@ const Login = () => {
 	const [authValidation, setAuthValidation] = useState(false);
 
 	const PostData = () => {
+		const URL = `http://localhost:5000/signin`;
 		// the Regex email validation was token from : https://emailregex.com/
 		if (
 			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
