@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../../App";
+import { UserContext } from "../App";
 import { makeStyles } from "@material-ui/styles";
 
 import Button from "@material-ui/core/Button";
