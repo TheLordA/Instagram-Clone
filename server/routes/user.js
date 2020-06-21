@@ -96,6 +96,71 @@ router.put("/unfollow", loginmiddleware, (req, res) => {
 		}
 	);
 });
+//Handle retrieving all the bookmarks available
+// not available for the moment
+/*router.get("/bookmarks",loginmiddleware,(req,res)=>{
+	User.findOne({ _id: req.body.id })
+		.select("-Password")
+		.then((user) => {
+			
+			Post.find({ PostedBy: req.params.id })
+				.populate("PostedBy", "_id Name")
+				.exec((err, result) => {
+					if (err) return res.status(422).json();
+					const posts = [];
+					result.map((item) => {
+						posts.push({
+							_id: item._id,
+							Title: item.Title,
+							Body: item.Body,
+							Photo: item.Photo.toString("base64"),
+							PhotoType: item.PhotoType,
+							Likes: item.Likes,
+							Comments: item.Comments,
+							Followers: item.Followers,
+							Following: item.Following,
+						});
+					});
+					res.json({ user, posts });
+				});
+		})
+		.catch((err) => {
+			return res.status(404).json({ Error: "User not found" });
+		});
+})*/
+// Create a post Bookmark
+router.put("/bookmark-post", loginmiddleware, (req, res) => {
+	User.findByIdAndUpdate(
+		req.user._id,
+		{
+			$push: { Bookmarks: req.body.postId },
+		},
+		{ new: true }
+	)
+		.select("-Password")
+		.then((result) => {
+			res.json(result);
+		})
+		.catch((err) => {
+			return res.json({ error: err });
+		});
+});
+router.put("/remove-bookmark", loginmiddleware, (req, res) => {
+	User.findByIdAndUpdate(
+		req.user._id,
+		{
+			$pull: { Bookmarks: req.body.postId },
+		},
+		{ new: true }
+	)
+		.select("-Password")
+		.then((result) => {
+			res.json(result);
+		})
+		.catch((err) => {
+			return res.json({ error: err });
+		});
+});
 
 // Just Wrote the logic of it but not yet tested and the client implementation doesn't exist yet
 router.put("/update-picture", loginmiddleware, (req, res) => {

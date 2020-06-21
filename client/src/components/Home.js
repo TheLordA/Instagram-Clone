@@ -22,6 +22,8 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import SendIcon from "@material-ui/icons/Send";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -107,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
 	const classes = useStyles();
-	const { state } = useContext(UserContext);
+	const { state, dispatch } = useContext(UserContext);
 
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
@@ -145,6 +147,30 @@ const Home = () => {
 					else return item;
 				});
 				setData(newData);
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const bookmark = (id) => {
+		axios.put(`http://localhost:5000/bookmark-post`, { postId: id }, config)
+			.then((result) => {
+				dispatch({
+					type: "BOOKMARK",
+					payload: { Bookmarks: result.data.Bookmarks },
+				});
+				localStorage.setItem("user", JSON.stringify(result.data));
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const removeBookmark = (id) => {
+		axios.put(`http://localhost:5000/remove-bookmark`, { postId: id }, config)
+			.then((result) => {
+				dispatch({
+					type: "BOOKMARK",
+					payload: { Bookmarks: result.data.Bookmarks },
+				});
+				localStorage.setItem("user", JSON.stringify(result.data));
 			})
 			.catch((err) => console.log(err));
 	};
@@ -227,6 +253,27 @@ const Home = () => {
 					<IconButton aria-label="comments">
 						<ChatBubbleOutlineIcon />
 					</IconButton>
+					{state.Bookmarks.includes(item._id) ? (
+						<IconButton
+							aria-label="Remove Bookmark"
+							style={{ marginLeft: "auto", color: "#e0d011" }}
+							onClick={() => {
+								removeBookmark(item._id);
+							}}
+						>
+							<BookmarkIcon />
+						</IconButton>
+					) : (
+						<IconButton
+							aria-label="Bookmark"
+							style={{ marginLeft: "auto" }}
+							onClick={() => {
+								bookmark(item._id);
+							}}
+						>
+							<BookmarkBorderIcon />
+						</IconButton>
+					)}
 				</CardActions>
 
 				<CardContent>

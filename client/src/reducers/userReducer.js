@@ -13,5 +13,11 @@ export const reducer = (state, action) => {
 			Following: action.payload.Following,
 		};
 	}
+	if (action.type === "BOOKMARK") {
+		return {
+			...state,
+			Bookmarks: action.payload.Bookmarks,
+		};
+	}
 	return state;
 };
