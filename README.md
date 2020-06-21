@@ -52,8 +52,8 @@ Features :
 -    [x] Like & comment posts
 -    [x] Follow/UnFollow users
 -    [x] Reset password using Emails
+-    [x] Bookmark posts
 -    [ ] Show notifications
--    [ ] Bookmark posts
 -    [ ] Private messages
 -    [ ] Rooms discussion
 -    [ ] Like comments
