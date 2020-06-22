@@ -105,6 +105,7 @@ router.get("/bookmarks", loginmiddleware, (req, res) => {
 		.then((user) => {
 			const data = user[0].Bookmarks;
 			Post.find({ _id: { $in: data } })
+				.populate("PostedBy", "_id Name")
 				.then((result) => {
 					let bookmark = [];
 					result.map((item) => {

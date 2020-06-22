@@ -15,6 +15,12 @@ import Avatar from "@material-ui/core/Avatar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 935,
@@ -27,6 +33,17 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 20,
 	},
 	settings: {},
+	posts: {
+		width: "270px",
+		height: "230px",
+	},
+	posts_img: {
+		width: "100%",
+		height: "100%",
+	},
+	icon: {
+		color: "rgba(255, 255, 255, 0.54)",
+	},
 }));
 
 function TabPanel(props) {
@@ -39,10 +56,12 @@ function TabPanel(props) {
 }
 
 const ProfilePage = () => {
-	const [data, setData] = useState([]);
-	const [value, setValue] = useState("Posts");
 	const classes = useStyles();
 	const { state } = useContext(UserContext);
+	const [data, setData] = useState([]);
+	const [bookmarks, setBookmarks] = useState([]);
+	const [value, setValue] = useState("Posts");
+
 	const config = {
 		headers: {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -54,7 +73,7 @@ const ProfilePage = () => {
 			setData(res.data.posts);
 		});
 		axios.get(`http://localhost:5000/bookmarks`, config).then((res) => {
-			console.log(res.data);
+			setBookmarks(res.data.bookmark);
 		});
 	}, []);
 
@@ -129,36 +148,39 @@ const ProfilePage = () => {
 				>
 					<Tab label="Posts" value="Posts" icon={<Icon>grid_on_outlined</Icon>} />
 					<Tab label="IGTV" value="IGTV" icon={<Icon>live_tv</Icon>} disabled />
-					<Tab label="Saved" value="Saved" icon={<Icon>bookmark_border_outlined</Icon>} disabled />
+					<Tab label="Saved" value="Saved" icon={<Icon>bookmark_border_outlined</Icon>} />
 					<Tab label="Tagged" value="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
 				</Tabs>
 				<TabPanel value={value} index="Posts">
 					<Grid container spacing={2}>
 						{data.map((item) => (
-							<Grid item xs={4} key={item.id}>
+							<Grid item xs={4} key={item.id} className={classes.posts}>
 								<img
-									alt="post"
-									style={{ width: "100%", height: "100%" }}
+									className={classes.posts_img}
+									alt="post image"
 									src={`data:${item.photoType};base64,${item.photo}`}
 								/>
 							</Grid>
 						))}
-
-						<Grid item xs={4} className={classes.post_box}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
-						<Grid item xs={4} className={classes.post_box}>
-							<img
-								alt="post"
-								style={{ width: "100%" }}
-								src="https://via.placeholder.com/500/f5f5f5"
-							/>
-						</Grid>
 					</Grid>
+				</TabPanel>
+				<TabPanel value={value} index="Saved">
+					<GridList cellHeight={230} cols={3} spacing={15}>
+						{bookmarks.map((item) => (
+							<GridListTile key={item._id}>
+								<img src={`data:${item.PhotoType};base64,${item.Photo}`} alt={item.Title} />
+								<GridListTileBar
+									title={item.Title}
+									subtitle={<span>By : {item.PostedBy.Name}</span>}
+									actionIcon={
+										<IconButton aria-label={`info about`} className={classes.icon}>
+											<DeleteIcon />
+										</IconButton>
+									}
+								/>
+							</GridListTile>
+						))}
+					</GridList>
 				</TabPanel>
 			</Box>
 		</React.Fragment>
