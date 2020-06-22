@@ -53,6 +53,9 @@ const ProfilePage = () => {
 		axios.get(URL, config).then((res) => {
 			setData(res.data.posts);
 		});
+		axios.get(`http://localhost:5000/bookmarks`, config).then((res) => {
+			console.log(res.data);
+		});
 	}, []);
 
 	return (

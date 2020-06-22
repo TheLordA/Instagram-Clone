@@ -35,6 +35,7 @@ router.get("/user/:id", loginmiddleware, (req, res) => {
 			return res.status(404).json({ Error: "User not found" });
 		});
 });
+
 router.put("/follow", loginmiddleware, (req, res) => {
 	User.findByIdAndUpdate(
 		req.body.followId,
@@ -96,38 +97,37 @@ router.put("/unfollow", loginmiddleware, (req, res) => {
 		}
 	);
 });
+
 //Handle retrieving all the bookmarks available
-// not available for the moment
-/*router.get("/bookmarks",loginmiddleware,(req,res)=>{
-	User.findOne({ _id: req.body.id })
+router.get("/bookmarks", loginmiddleware, (req, res) => {
+	User.find({ _id: req.user._id })
 		.select("-Password")
 		.then((user) => {
-			
-			Post.find({ PostedBy: req.params.id })
-				.populate("PostedBy", "_id Name")
-				.exec((err, result) => {
-					if (err) return res.status(422).json();
-					const posts = [];
+			const data = user[0].Bookmarks;
+			Post.find({ _id: { $in: data } })
+				.then((result) => {
+					let bookmark = [];
 					result.map((item) => {
-						posts.push({
+						bookmark.push({
 							_id: item._id,
+							PostedBy: item.PostedBy,
 							Title: item.Title,
 							Body: item.Body,
 							Photo: item.Photo.toString("base64"),
 							PhotoType: item.PhotoType,
 							Likes: item.Likes,
 							Comments: item.Comments,
-							Followers: item.Followers,
-							Following: item.Following,
 						});
 					});
-					res.json({ user, posts });
-				});
+					res.json({ bookmark });
+				})
+				.catch((err) => console.log(err));
 		})
 		.catch((err) => {
 			return res.status(404).json({ Error: "User not found" });
 		});
-})*/
+});
+
 // Create a post Bookmark
 router.put("/bookmark-post", loginmiddleware, (req, res) => {
 	User.findByIdAndUpdate(
@@ -145,6 +145,8 @@ router.put("/bookmark-post", loginmiddleware, (req, res) => {
 			return res.json({ error: err });
 		});
 });
+
+// Remove a post from Bookmarks
 router.put("/remove-bookmark", loginmiddleware, (req, res) => {
 	User.findByIdAndUpdate(
 		req.user._id,
