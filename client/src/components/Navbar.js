@@ -27,7 +27,7 @@ import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AllInboxOutlinedIcon from "@material-ui/icons/AllInboxOutlined";
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
@@ -188,17 +188,7 @@ const Navbar = (props) => {
 				</IconButton>
 				<p>Search</p>
 			</MenuItem>
-			<MenuItem component={Link} to="/feed">
-				<IconButton>
-					<FavoriteBorderOutlinedIcon
-						style={{
-							"color": "rgba(0, 0, 0, 0.54)",
-						}}
-					/>
-				</IconButton>
-				<p>Favorites</p>
-			</MenuItem>
-			<MenuItem component={Link} to="/">
+			<MenuItem component={Link} to="/explore">
 				<IconButton>
 					<ExploreOutlinedIcon
 						style={{
@@ -217,18 +207,6 @@ const Navbar = (props) => {
 					/>
 				</IconButton>
 				<p>Add Post</p>
-			</MenuItem>
-			<MenuItem component={Link} to="#">
-				<IconButton>
-					<Badge color="secondary">
-						<BookmarkBorderOutlinedIcon
-							style={{
-								"color": "rgba(0, 0, 0, 0.54)",
-							}}
-						/>
-					</Badge>
-				</IconButton>
-				<p>Bookmarks</p>
 			</MenuItem>
 			<MenuItem component={Link} to="#">
 				<IconButton>
@@ -355,13 +333,13 @@ const Navbar = (props) => {
 									icon={<SearchOutlinedIcon style={{ "color": "rgba(0, 0, 0, 0.54)" }} />}
 								/>
 								<BottomNavigationAction
-									label="Favorites"
-									value="favorites"
+									label="Home"
+									value="home"
 									component={Link}
-									to="/feed"
+									to="/"
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
-										<FavoriteBorderOutlinedIcon
+										<HomeOutlinedIcon
 											style={{
 												"color": "rgba(0, 0, 0, 0.54)",
 											}}
@@ -372,7 +350,7 @@ const Navbar = (props) => {
 									label="Explore"
 									value="explore"
 									component={Link}
-									to="/"
+									to="/explore"
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<ExploreOutlinedIcon
@@ -382,6 +360,7 @@ const Navbar = (props) => {
 										/>
 									}
 								/>
+
 								<BottomNavigationAction
 									label="Add Post"
 									value="add post"
@@ -394,22 +373,6 @@ const Navbar = (props) => {
 												"color": "rgba(0, 0, 0, 0.54)",
 											}}
 										/>
-									}
-								/>
-								<BottomNavigationAction
-									label="Bookmarks"
-									value="bokmarks"
-									component={Link}
-									to="/bookmarks"
-									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
-									icon={
-										<Badge color="secondary">
-											<BookmarkBorderOutlinedIcon
-												style={{
-													"color": "rgba(0, 0, 0, 0.54)",
-												}}
-											/>
-										</Badge>
 									}
 								/>
 								<BottomNavigationAction

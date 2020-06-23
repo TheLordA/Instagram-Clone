@@ -29,36 +29,36 @@ const Routing = () => {
 	return (
 		<Switch>
 			<Route exact path="/">
-				<NavBar nav="recents" />
+				<NavBar nav="home" />
+				<SubscribePost />
+			</Route>
+			<Route path="/explore">
+				<NavBar nav="explore" />
 				<Home />
 			</Route>
+			<Route path="/create">
+				<NavBar nav="add post" />
+				<CreatePost />
+			</Route>
 			<Route exact path="/profile">
-				<NavBar />
+				<NavBar nav="profile" />
 				<Profile />
+			</Route>
+			<Route path="/profile/:userid">
+				<NavBar />
+				<UserProfile />
 			</Route>
 			<Route path="/login">
 				<Login />
+			</Route>
+			<Route path="/signup">
+				<Signup />
 			</Route>
 			<Route exact path="/reset">
 				<Reset />
 			</Route>
 			<Route path="/reset/:token">
 				<NewPass />
-			</Route>
-			<Route path="/signup">
-				<Signup />
-			</Route>
-			<Route path="/create">
-				<NavBar />
-				<CreatePost />
-			</Route>
-			<Route path="/profile/:userid">
-				<NavBar />
-				<UserProfile />
-			</Route>
-			<Route path="/feed">
-				<NavBar nav="favorites" />
-				<SubscribePost />
 			</Route>
 		</Switch>
 	);
