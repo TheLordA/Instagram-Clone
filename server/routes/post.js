@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ *
+ */
+
 const express = require("express");
 const mongoose = require("mongoose");
 const loginmiddleware = require("../middleware/loginMiddleware");

@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ *
+ */
+
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";

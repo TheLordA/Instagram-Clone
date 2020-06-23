@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ *
+ */
+
 import React, { useEffect, createContext, useReducer, useContext } from "react";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import { reducer, initialState } from "./reducers/userReducer";

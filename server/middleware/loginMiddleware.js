@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ *
+ */
+
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const JWT_SECRET = require("../constants");

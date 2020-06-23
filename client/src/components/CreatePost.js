@@ -1,3 +1,10 @@
+/**
+ *
+ * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ *
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
