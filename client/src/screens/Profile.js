@@ -9,7 +9,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
-import VerticalTabs from "./VerticalTabs.js";
+import VerticalTabs from "../components/VerticalTabs.js";
 
 // Material-UI Components
 import { makeStyles, withStyles } from "@material-ui/styles";
