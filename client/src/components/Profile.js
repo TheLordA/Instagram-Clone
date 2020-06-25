@@ -7,11 +7,12 @@
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { UserContext } from "../App";
-import { makeStyles, withStyles } from "@material-ui/styles";
+import axios from "axios";
+import VerticalTabs from "./VerticalTabs.js";
 
 // Material-UI Components
+import { makeStyles, withStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,7 +26,6 @@ import Tab from "@material-ui/core/Tab";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -40,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 935,
 		margin: "auto",
 		padding: "60px 20px 0",
+	},
+	dialogContainer: {
+		"& .MuiDialog-paperWidthSm": {
+			width: "80%",
+			maxWidth: "900px",
+		},
 	},
 	dialogTitle: {
 		margin: "0px",
@@ -117,6 +123,7 @@ const ProfilePage = () => {
 
 	//Toggle the EditProfile Button to show the Dialog
 	const [openEdit, setOpenEdit] = useState(false);
+
 	const handleEditClickOpen = () => {
 		setOpenEdit(true);
 	};
@@ -128,6 +135,7 @@ const ProfilePage = () => {
 		<React.Fragment>
 			<CssBaseline />
 			<Box component="main" className={classes.root}>
+				{/* User Profile Data Goes Here */}
 				<Box mb="44px">
 					<Grid container>
 						<Grid item xs={4} className={classes.avatar_container}>
@@ -184,6 +192,7 @@ const ProfilePage = () => {
 						</Grid>
 					</Grid>
 				</Box>
+				{/* Tabs Goes Here */}
 				<Tabs
 					value={value}
 					centered
@@ -202,6 +211,7 @@ const ProfilePage = () => {
 					<Tab label="Saved" value="Saved" icon={<Icon>bookmark_border_outlined</Icon>} />
 					<Tab label="Tagged" value="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
 				</Tabs>
+				{/* Tabs Data Goes Here */}
 				<TabPanel value={value} index="Posts">
 					<Grid container spacing={2}>
 						{data.map((item) => (
@@ -234,28 +244,16 @@ const ProfilePage = () => {
 					</GridList>
 				</TabPanel>
 			</Box>
-
-			<Dialog onClose={handleEditClose} aria-labelledby="customized-dialog-title" open={openEdit}>
+			{/* EditProfile Dialog */}
+			<Dialog onClose={handleEditClose} open={openEdit} className={classes.dialogContainer}>
 				<DialogTitle disableTypography className={classes.dialogTitle}>
-					<Typography variant="h6">Modal Title</Typography>
+					<Typography variant="h6">Profile settings</Typography>
 					<IconButton aria-label="close" className={classes.closeButton} onClick={handleEditClose}>
 						<CloseIcon />
 					</IconButton>
 				</DialogTitle>
 				<DialogContent dividers>
-					<Typography gutterBottom>
-						Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-						in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-					</Typography>
-					<Typography gutterBottom>
-						Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus
-						vel augue laoreet rutrum faucibus dolor auctor.
-					</Typography>
-					<Typography gutterBottom>
-						Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-						scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-						auctor fringilla.
-					</Typography>
+					<VerticalTabs />
 				</DialogContent>
 				<DialogActions>
 					<Button autoFocus onClick={handleEditClose} color="primary">
