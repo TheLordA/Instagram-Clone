@@ -10,6 +10,7 @@ import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import Axios from "axios";
 
+// Material-UI Components
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -29,11 +30,11 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import Modal from "@material-ui/core/Modal";
 
+// Material-UI Icons
 import MoreIcon from "@material-ui/icons/MoreVert";
 import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AllInboxOutlinedIcon from "@material-ui/icons/AllInboxOutlined";
 import NotificationsActiveOutlinedIcon from "@material-ui/icons/NotificationsActiveOutlined";

@@ -9,8 +9,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, withStyles } from "@material-ui/styles";
 
+// Material-UI Components
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -21,11 +22,17 @@ import Icon from "@material-ui/core/Icon";
 import Avatar from "@material-ui/core/Avatar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+
+// Material-UI Icons
+import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 935,
 		margin: "auto",
 		padding: "60px 20px 0",
+	},
+	dialogTitle: {
+		margin: "0px",
+		padding: "16px",
 	},
 	avatar_container: { margin: "auto" },
 	avatar: { width: 152, height: 152 },
@@ -51,7 +62,26 @@ const useStyles = makeStyles((theme) => ({
 	icon: {
 		color: "rgba(255, 255, 255, 0.54)",
 	},
+	closeButton: {
+		position: "absolute",
+		right: "8px",
+		top: "8px",
+		color: "#9e9e9e",
+	},
 }));
+
+const DialogContent = withStyles((theme) => ({
+	root: {
+		padding: "16px",
+	},
+}))(MuiDialogContent);
+
+const DialogActions = withStyles((theme) => ({
+	root: {
+		margin: "0px",
+		padding: "2px",
+	},
+}))(MuiDialogActions);
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -74,6 +104,7 @@ const ProfilePage = () => {
 			Authorization: "Bearer " + localStorage.getItem("jwt"),
 		},
 	};
+
 	useEffect(() => {
 		const URL = `http://localhost:5000/mypost`;
 		axios.get(URL, config).then((res) => {
@@ -83,6 +114,15 @@ const ProfilePage = () => {
 			setBookmarks(res.data.bookmark);
 		});
 	}, []);
+
+	//Toggle the EditProfile Button to show the Dialog
+	const [openEdit, setOpenEdit] = useState(false);
+	const handleEditClickOpen = () => {
+		setOpenEdit(true);
+	};
+	const handleEditClose = () => {
+		setOpenEdit(false);
+	};
 
 	return (
 		<React.Fragment>
@@ -106,8 +146,7 @@ const ProfilePage = () => {
 									<Button
 										className={classes.editButton}
 										variant="outlined"
-										component={Link}
-										to="#"
+										onClick={handleEditClickOpen}
 									>
 										Edit Profile
 									</Button>
@@ -151,7 +190,12 @@ const ProfilePage = () => {
 					onChange={(event, value) => {
 						setValue(value);
 					}}
-					TabIndicatorProps={{ style: { transform: "translateY(-70px)", backgroundColor: "#262626" } }}
+					TabIndicatorProps={{
+						style: {
+							transform: "translateY(-70px)",
+							backgroundColor: "#262626",
+						},
+					}}
 				>
 					<Tab label="Posts" value="Posts" icon={<Icon>grid_on_outlined</Icon>} />
 					<Tab label="IGTV" value="IGTV" icon={<Icon>live_tv</Icon>} disabled />
@@ -190,6 +234,35 @@ const ProfilePage = () => {
 					</GridList>
 				</TabPanel>
 			</Box>
+
+			<Dialog onClose={handleEditClose} aria-labelledby="customized-dialog-title" open={openEdit}>
+				<DialogTitle disableTypography className={classes.dialogTitle}>
+					<Typography variant="h6">Modal Title</Typography>
+					<IconButton aria-label="close" className={classes.closeButton} onClick={handleEditClose}>
+						<CloseIcon />
+					</IconButton>
+				</DialogTitle>
+				<DialogContent dividers>
+					<Typography gutterBottom>
+						Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+						in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+					</Typography>
+					<Typography gutterBottom>
+						Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus
+						vel augue laoreet rutrum faucibus dolor auctor.
+					</Typography>
+					<Typography gutterBottom>
+						Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
+						scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
+						auctor fringilla.
+					</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button autoFocus onClick={handleEditClose} color="primary">
+						Save changes
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</React.Fragment>
 	);
 };
