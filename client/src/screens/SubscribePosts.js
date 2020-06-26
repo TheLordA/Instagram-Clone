@@ -9,6 +9,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
+import { config } from "../config/constants";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -119,11 +120,6 @@ const SubscribePost = () => {
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
-	const config = {
-		headers: {
-			Authorization: "Bearer " + localStorage.getItem("jwt"),
-		},
-	};
 
 	useEffect(() => {
 		const URL = `http://localhost:5000/subspost`;

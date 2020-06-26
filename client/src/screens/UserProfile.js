@@ -9,6 +9,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
+import { config } from "../config/constants";
 import { makeStyles } from "@material-ui/styles";
 
 import Button from "@material-ui/core/Button";
@@ -53,11 +54,7 @@ const UserProfilePage = () => {
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
 	const [showfollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
-	const config = {
-		headers: {
-			Authorization: "Bearer " + localStorage.getItem("jwt"),
-		},
-	};
+
 	useEffect(() => {
 		axios.get(`http://localhost:5000/user/${userid}`, config).then((res) => {
 			setData(res.data);

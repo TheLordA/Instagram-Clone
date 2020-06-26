@@ -9,7 +9,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-
+import { config } from "../config/constants";
+// Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -24,6 +25,7 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+// Material-UI Icons
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
@@ -32,6 +34,7 @@ import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 
+// General style
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 500,
@@ -121,11 +124,6 @@ const Home = () => {
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
-	const config = {
-		headers: {
-			Authorization: "Bearer " + localStorage.getItem("jwt"),
-		},
-	};
 
 	useEffect(() => {
 		const URL = `http://localhost:5000/allpost`;

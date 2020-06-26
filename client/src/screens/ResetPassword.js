@@ -8,7 +8,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-
+// Material-UI Components
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -19,6 +19,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
+// General Styles
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: "-webkit-fill-available",
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+// Copyright components
 function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">

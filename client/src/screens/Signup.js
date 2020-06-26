@@ -8,7 +8,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-
+// Material-UI Components
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -16,9 +17,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
@@ -121,16 +120,19 @@ const Signup = () => {
 			<Typography className={classes.Logo} variant="h2">
 				Instagram Clone
 			</Typography>
+			{/*  Check the format of the Email */}
 			{formatValidation ? (
 				<Alert variant="outlined" severity="error">
 					Invalid Email format — check it out!
 				</Alert>
 			) : null}
+			{/*  Check the if the Email already Exist */}
 			{authValidation ? (
 				<Alert variant="outlined" severity="error">
 					This Email is already token — check it out!
 				</Alert>
 			) : null}
+			{/* Success notification */}
 			{confirmValidation ? (
 				<Alert variant="outlined" severity="success">
 					Your account has been created successfully — check it out!

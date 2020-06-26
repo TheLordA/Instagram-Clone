@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
 import VerticalTabs from "../components/VerticalTabs.js";
+import { config } from "../config/constants";
 
 // Material-UI Components
 import { makeStyles, withStyles } from "@material-ui/styles";
@@ -35,6 +36,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+// General styles
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 935,
@@ -76,12 +78,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+// EditProfile dialog content style
 const DialogContent = withStyles((theme) => ({
 	root: {
 		padding: "16px",
 	},
 }))(MuiDialogContent);
 
+// EditProfile dialog actions style
 const DialogActions = withStyles((theme) => ({
 	root: {
 		margin: "0px",
@@ -89,6 +93,7 @@ const DialogActions = withStyles((theme) => ({
 	},
 }))(MuiDialogActions);
 
+// Tabs data container
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 	return (
@@ -104,12 +109,6 @@ const ProfilePage = () => {
 	const [data, setData] = useState([]);
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
-
-	const config = {
-		headers: {
-			Authorization: "Bearer " + localStorage.getItem("jwt"),
-		},
-	};
 
 	useEffect(() => {
 		const URL = `http://localhost:5000/mypost`;
@@ -192,7 +191,7 @@ const ProfilePage = () => {
 						</Grid>
 					</Grid>
 				</Box>
-				{/* Tabs Goes Here */}
+				{/* Tabs Goes Reference Here */}
 				<Tabs
 					value={value}
 					centered
