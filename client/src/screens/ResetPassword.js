@@ -8,6 +8,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { RESET_PWD_URL, Copyright } from "../config/constants";
 // Material-UI Components
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -54,19 +55,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-// Copyright components
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}
-
 const Reset = () => {
-	const URL = `http://localhost:5000/reset-pwd`;
 	const history = useHistory();
 	const classes = useStyles();
 	const [email, setEmail] = useState("");
@@ -91,7 +80,7 @@ const Reset = () => {
 				email
 			)
 		) {
-			axios.post(URL, { email })
+			axios.post(RESET_PWD_URL, { email })
 				.then((res) => {
 					const data = res.data;
 					console.log(data);

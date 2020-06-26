@@ -8,6 +8,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
+import { LOGIN_URL, Copyright } from "../config/constants";
 import axios from "axios";
 // Material-UI Components
 import Button from "@material-ui/core/Button";
@@ -21,7 +22,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
-
+/*
 function Copyright() {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
@@ -30,7 +31,7 @@ function Copyright() {
 			{"."}
 		</Typography>
 	);
-}
+}*/
 // General Styles
 const useStyles = makeStyles((theme) => ({
 	Logo: {
@@ -71,14 +72,13 @@ const Login = () => {
 	const [authValidation, setAuthValidation] = useState(false);
 
 	const PostData = () => {
-		const URL = `http://localhost:5000/signin`;
 		// the Regex email validation was token from : https://emailregex.com/
 		if (
 			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
 				email
 			)
 		) {
-			axios.post(URL, { password, email })
+			axios.post(LOGIN_URL, { password, email })
 				.then((res) => {
 					const data = res.data;
 					if (data.error) {

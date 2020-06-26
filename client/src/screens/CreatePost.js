@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
-import { config } from "../config/constants";
+import { config, CREATE_POST_URL } from "../config/constants";
 // Material-UI deps
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -110,14 +110,12 @@ const CreatePoste = () => {
 	);
 
 	const PostData = () => {
-		const URL = `http://localhost:5000/createpost`;
-
 		// the Index 0 means the first file , we will add in the future the support of multiple
 		// images upload , the max will be 10 images per post
 		const photoEncode = files[0].getFileEncodeBase64String();
 		const photoType = files[0].fileType;
 		Axios.post(
-			URL,
+			CREATE_POST_URL,
 			{
 				title: caption,
 				body: caption,

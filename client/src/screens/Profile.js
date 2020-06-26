@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
 import VerticalTabs from "../components/VerticalTabs.js";
-import { config } from "../config/constants";
+import { config, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
 
 // Material-UI Components
 import { makeStyles, withStyles } from "@material-ui/styles";
@@ -111,11 +111,10 @@ const ProfilePage = () => {
 	const [value, setValue] = useState("Posts");
 
 	useEffect(() => {
-		const URL = `http://localhost:5000/mypost`;
-		axios.get(URL, config).then((res) => {
+		axios.get(MY_POST_URL, config).then((res) => {
 			setData(res.data.posts);
 		});
-		axios.get(`http://localhost:5000/bookmarks`, config).then((res) => {
+		axios.get(MY_BOOKMARKS_URL, config).then((res) => {
 			setBookmarks(res.data.bookmark);
 		});
 	}, []);

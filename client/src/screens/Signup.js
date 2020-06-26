@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { SIGNUP_URL, Copyright } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -21,16 +22,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}
-
+// General Styles
 const useStyles = makeStyles((theme) => ({
 	Logo: {
 		fontFamily: "Grand Hotel, cursive",
@@ -59,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
-	const URL = `http://localhost:5000/signup`;
 	const history = useHistory();
 	const classes = useStyles();
 	const [name, setName] = useState("");
@@ -86,7 +77,7 @@ const Signup = () => {
 				email
 			)
 		) {
-			axios.post(URL, {
+			axios.post(SIGNUP_URL, {
 				name,
 				password,
 				email,

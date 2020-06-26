@@ -9,8 +9,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-import { config } from "../config/constants";
-
+import { config, SUB_POST_URL } from "../config/constants";
+// Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -31,6 +31,7 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import SendIcon from "@material-ui/icons/Send";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 
+// General styles
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 500,
@@ -122,8 +123,7 @@ const SubscribePost = () => {
 	const [comment, setComment] = useState("");
 
 	useEffect(() => {
-		const URL = `http://localhost:5000/subspost`;
-		axios.get(URL, config).then((res) => {
+		axios.get(SUB_POST_URL, config).then((res) => {
 			console.log(res.data.posts);
 			setData(res.data.posts);
 		});

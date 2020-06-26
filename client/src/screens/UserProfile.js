@@ -10,8 +10,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
 import { config } from "../config/constants";
+// Material-UI Components
 import { makeStyles } from "@material-ui/styles";
-
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
@@ -23,6 +23,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+// General Styles
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 935,

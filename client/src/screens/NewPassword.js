@@ -7,6 +7,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { NEW_PWD_URL, Copyright } from "../config/constants";
 import axios from "axios";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,16 +19,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
-
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}
 
 // General Styles
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NewPass = () => {
-	const URL = `http://localhost:5000/new-pwd`;
 	const classes = useStyles();
 	const history = useHistory();
 	const { token } = useParams();
@@ -86,7 +76,7 @@ const NewPass = () => {
 	);
 
 	const PostData = () => {
-		axios.post(URL, { password, token })
+		axios.post(NEW_PWD_URL, { password, token })
 			.then((res) => {
 				const data = res.data;
 				if (data.error) {

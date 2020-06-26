@@ -9,7 +9,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-import { config } from "../config/constants";
+import { config, ALL_POST_URL } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -126,8 +126,7 @@ const Home = () => {
 	const [comment, setComment] = useState("");
 
 	useEffect(() => {
-		const URL = `http://localhost:5000/allpost`;
-		axios.get(URL, config).then((res) => {
+		axios.get(ALL_POST_URL, config).then((res) => {
 			setData(res.data.posts);
 		});
 	}, []);
