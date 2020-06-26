@@ -6,8 +6,9 @@
  */
 
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import { NEW_PWD_URL, Copyright } from "../config/constants";
+import { useHistory, useParams } from "react-router-dom";
+import { NEW_PWD_URL } from "../config/constants";
+import Copyright from "../components/Copyight";
 import axios from "axios";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,7 +63,6 @@ const NewPass = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 
-	const [checkPwd, setCheckPwd] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(false);
 	const [successMsg, setSuccessMsg] = useState(false);
 

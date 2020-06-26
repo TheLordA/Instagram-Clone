@@ -126,6 +126,7 @@ const Home = () => {
 	const [comment, setComment] = useState("");
 
 	useEffect(() => {
+		console.log(config);
 		axios.get(ALL_POST_URL, config).then((res) => {
 			setData(res.data.posts);
 		});

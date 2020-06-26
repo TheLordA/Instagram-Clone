@@ -46,16 +46,3 @@ export const SIGNUP_URL = `http://localhost:5000/signup`;
 
 // SubscribePosts Screen
 export const SUB_POST_URL = `http://localhost:5000/subspost`;
-
-/**
- *  CopyRight Function
- */
-export const Copyright = () => {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-};

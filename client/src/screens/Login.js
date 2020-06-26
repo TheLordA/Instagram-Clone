@@ -8,7 +8,8 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
-import { LOGIN_URL, Copyright } from "../config/constants";
+import { LOGIN_URL } from "../config/constants";
+import Copyright from "../components/Copyight";
 import axios from "axios";
 // Material-UI Components
 import Button from "@material-ui/core/Button";
