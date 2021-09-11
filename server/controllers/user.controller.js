@@ -1,19 +1,13 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
+const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
-const express = require("express");
-const router = express.Router();
-const mongoose = require("mongoose");
-const loginmiddleware = require("../middleware/loginMiddleware");
-
-const Post = mongoose.model("Post");
-const User = mongoose.model("User");
-
-router.get("/user/:id", loginmiddleware, (req, res) => {
+exports.user = (req, res) => {
 	User.findOne({ _id: req.params.id })
 		.select("-Password")
 		.then((user) => {
@@ -41,9 +35,9 @@ router.get("/user/:id", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			return res.status(404).json({ Error: "User not found" });
 		});
-});
+};
 
-router.put("/follow", loginmiddleware, (req, res) => {
+exports.follow = (req, res) => {
 	User.findByIdAndUpdate(
 		req.body.followId,
 		{
@@ -72,9 +66,9 @@ router.put("/follow", loginmiddleware, (req, res) => {
 				});
 		}
 	);
-});
+};
 
-router.put("/unfollow", loginmiddleware, (req, res) => {
+exports.unfollow = (req, res) => {
 	User.findByIdAndUpdate(
 		req.body.unfollowId,
 		{
@@ -103,10 +97,9 @@ router.put("/unfollow", loginmiddleware, (req, res) => {
 				});
 		}
 	);
-});
+};
 
-//Handle retrieving all the bookmarks available
-router.get("/bookmarks", loginmiddleware, (req, res) => {
+exports.bookmarks = (req, res) => {
 	User.find({ _id: req.user._id })
 		.select("-Password")
 		.then((user) => {
@@ -134,10 +127,9 @@ router.get("/bookmarks", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			return res.status(404).json({ Error: "User not found" });
 		});
-});
+};
 
-// Create a post Bookmark
-router.put("/bookmark-post", loginmiddleware, (req, res) => {
+exports.bookmarkPost = (req, res) => {
 	User.findByIdAndUpdate(
 		req.user._id,
 		{
@@ -152,10 +144,9 @@ router.put("/bookmark-post", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			return res.json({ error: err });
 		});
-});
+};
 
-// Remove a post from Bookmarks
-router.put("/remove-bookmark", loginmiddleware, (req, res) => {
+exports.removeBookmark = (req, res) => {
 	User.findByIdAndUpdate(
 		req.user._id,
 		{
@@ -170,10 +161,10 @@ router.put("/remove-bookmark", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			return res.json({ error: err });
 		});
-});
+};
 
 // Just Wrote the logic of it but not yet tested and the client implementation doesn't exist yet
-router.put("/update-picture", loginmiddleware, (req, res) => {
+exports.updatePicture = (req, res) => {
 	User.findByIdAndUpdate(
 		req.user._id,
 		{ $set: { Photo: req.body.Photo, PhotoType: req.body.PhotoType } },
@@ -185,9 +176,9 @@ router.put("/update-picture", loginmiddleware, (req, res) => {
 			res.json(result);
 		}
 	);
-});
+};
 
-router.post("/users-research", (req, res) => {
+exports.userSearch = (req, res) => {
 	let pattern = new RegExp("^" + req.body.pattern);
 	User.find({ Email: { $regex: pattern } })
 		.select("_id Email Name")
@@ -197,6 +188,4 @@ router.post("/users-research", (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
-
-module.exports = router;
+};

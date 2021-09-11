@@ -1,41 +1,69 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
 const express = require("express");
-const mongoose = require("mongoose");
-var cors = require("cors");
+const morgan = require("morgan");
+const cors = require("cors");
+const compression = require("compression");
+const helmet = require("helmet");
 
+const connectDB = require("./config/db.config");
+
+/**
+ * -------------- GENERAL SETUP ----------------
+ */
+
+// Gives us access to variables set in the .env file via `process.env.VARIABLE_NAME` syntax
+require("dotenv").config();
+
+// Connection to DB
+connectDB();
+
+// Create the Express application object
 const app = express();
-const PORT = 5000;
-const URL = "mongodb://localhost:27017/instadb";
 
-mongoose.connect(URL, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useFindAndModify: false,
-});
+// Compress the HTTP response sent back to a client
+app.use(compression()); //Compress all routes
 
-mongoose.connection.on("connected", () => {
-	console.log("Successfully connected to InstaDB");
-});
-mongoose.connection.on("error", (err) => {
-	console.log("error while connecting to InstaDB : ", err);
-});
+// Use Helmet to protect against well known vulnerabilities
+app.use(helmet());
 
-require("./models/user");
-require("./models/post");
+// use Morgan dep in dev mode
+app.use(morgan("dev"));
 
-app.use(cors());
+// Set up cors to allow us to accept requests from our client
+app.use(
+	cors({
+		origin: "http://localhost:3000", // <-- location of the react app were connecting to
+		credentials: true,
+	})
+);
+
+// Parsers
 app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(require("./routes/auth"));
-app.use(require("./routes/post"));
-app.use(require("./routes/user"));
+/**
+ * -------------- ROUTES ----------------
+ */
+require("./routes/auth.route")(app);
+require("./routes/post.route")(app);
+require("./routes/user.route")(app);
+
+/**
+ * -------------- SERVER ----------------
+ */
+
+// Specify the PORT which will the server running on
+const PORT = process.env.PORT || 3001;
+
+// Disabling Powered by tag
+app.disable("x-powered-by");
 
 app.listen(PORT, () => {
-	console.log("Server is running under port 5000 ...");
+	console.log(`Server is running in ${process.env.NODE_ENV} mode, under port ${PORT}.`);
 });

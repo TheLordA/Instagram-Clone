@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -43,4 +43,5 @@ const postSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-mongoose.model("Post", postSchema);
+// Create a model from our schema
+module.exports = mongoose.model("Post", postSchema);

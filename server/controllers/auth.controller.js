@@ -1,39 +1,23 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
-const express = require("express");
-const mongoose = require("mongoose");
-
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-
 const jwt = require("jsonwebtoken");
+// const sgMail = require("@sendgrid/mail");
+
 const JWT_SECRET = require("../constants");
 
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey("SENDGRID_API_KEY");
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const User = mongoose.model("User");
-const router = express.Router();
+const User = require("../models/user.model");
 
-// Our welcome msg from the API
-router.get("/", (req, res) => {
-	res.send("Welcome to our InstaClone API");
-});
-
-// Just to test that our middleware is working correctly
-/*
-router.get('/protected',loginMiddleware,(req,res)=>{
-    res.send('Hello from protected route');
-})
-*/
-
-// Route to handle SignUp requests
-router.post("/signup", (req, res) => {
+// SignUp Controller
+exports.signup = (req, res) => {
 	const { name, email, password } = req.body;
 	// Verifying if one of the fields is Empty
 	if (!name || !password || !email) {
@@ -56,14 +40,14 @@ router.post("/signup", (req, res) => {
 				// We save our new user to DB
 				user.save()
 					.then((user) => {
-						// after saving the user into DB we send a confirmation email
-						const email = {
-							from: "no-reply@insta-clone.com",
-							to: user.Email,
-							subject: "Your account has been created successfully",
-							html: "<h1>Welcome to InstaClone</h1>",
-						};
-						sgMail.send(email);
+						// // after saving the user into DB we send a confirmation email
+						// const email = {
+						// 	from: "no-reply@insta-clone.com",
+						// 	to: user.Email,
+						// 	subject: "Your account has been created successfully",
+						// 	html: "<h1>Welcome to InstaClone</h1>",
+						// };
+						// sgMail.send(email);
 						res.json({ message: "Saved successfully " });
 					})
 					.catch((err) => {
@@ -74,10 +58,10 @@ router.post("/signup", (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
-// Route to handle SignIn requests
-router.post("/signin", (req, res) => {
+// SignIn Controller
+exports.signin = (req, res) => {
 	const { email, password } = req.body;
 	// Verification for an empty field
 	if (!email || !password) {
@@ -106,9 +90,10 @@ router.post("/signin", (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
-router.post("/reset-pwd", (req, res) => {
+// Reset Password Controller
+exports.resetPwd = (req, res) => {
 	crypto.randomBytes(32, (err, buffer) => {
 		if (err) {
 			console.log(err);
@@ -127,28 +112,29 @@ router.post("/reset-pwd", (req, res) => {
 				// in order to use this feature
 				// the following is an example of Email template
 
-				const email = {
-					from: "no-reply@insta-clone.com",
-					to: user.Email,
-					subject: "Password Reset",
-					html: `
-                     <p>A request has been made to change the password of your account </p>
-					 <h5>click on this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password</h5>
-					 <p> Or copy and paste the following link :</p>
-					 <h5>"http://localhost:3000/reset/${token}"</h5>
-					 <h5>The link is only valid for 10min</h5>
-					 <h5>If you weren't the sender of that request , you can just ignore the message</h5>
-                     `,
-				};
-				sgMail.send(email);
+				// const email = {
+				// 	from: "no-reply@insta-clone.com",
+				// 	to: user.Email,
+				// 	subject: "Password Reset",
+				// 	html: `
+				//      <p>A request has been made to change the password of your account </p>
+				// 	 <h5>click on this <a href="http://localhost:3000/reset/${token}">link</a> to reset your password</h5>
+				// 	 <p> Or copy and paste the following link :</p>
+				// 	 <h5>"http://localhost:3000/reset/${token}"</h5>
+				// 	 <h5>The link is only valid for 10min</h5>
+				// 	 <h5>If you weren't the sender of that request , you can just ignore the message</h5>
+				//      `,
+				// };
+				// sgMail.send(email);
 
 				res.json({ message: "check your Email Inbox" });
 			});
 		});
 	});
-});
+};
 
-router.post("/new-pwd", (req, res) => {
+// New Password Controller
+exports.newPwd = (req, res) => {
 	const Password = req.body.password;
 	const Token = req.body.token;
 	User.findOne({ ResetToken: Token, ExpirationToken: { $gt: Date.now() } })
@@ -168,6 +154,4 @@ router.post("/new-pwd", (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
-
-module.exports = router;
+};

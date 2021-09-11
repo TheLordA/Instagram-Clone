@@ -1,18 +1,13 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
-const express = require("express");
-const mongoose = require("mongoose");
-const loginmiddleware = require("../middleware/loginMiddleware");
+const Post = require("../models/post.model");
 
-const Post = mongoose.model("Post");
-const router = express.Router();
-
-router.get("/allpost", loginmiddleware, (req, res) => {
+exports.allPost = (req, res) => {
 	Post.find()
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
@@ -36,8 +31,9 @@ router.get("/allpost", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
-router.get("/subspost", loginmiddleware, (req, res) => {
+};
+
+exports.subPost = (req, res) => {
 	Post.find({ PostedBy: { $in: req.user.Following } })
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
@@ -61,9 +57,9 @@ router.get("/subspost", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
-router.get("/mypost", loginmiddleware, (req, res) => {
+exports.myPost = (req, res) => {
 	Post.find({ PostedBy: req.user._id })
 		.populate("PostedBy", "_id Name")
 		.populate("Comments.PostedBy", "_id Name")
@@ -87,9 +83,9 @@ router.get("/mypost", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
-router.post("/createpost", loginmiddleware, (req, res) => {
+exports.createPost = (req, res) => {
 	const { title, body, photoEncode, photoType } = req.body;
 	if (!title || !body || !photoEncode) {
 		return res.json({
@@ -102,7 +98,12 @@ router.post("/createpost", loginmiddleware, (req, res) => {
 		PostedBy: req.user,
 	});
 
-	savePhoto(post, photoEncode, photoType);
+	// savePhoto(post, photoEncode, photoType);
+
+	if (photoEncoded != null) {
+		post.Photo = new Buffer.from(photoEncoded, "base64");
+		post.PhotoType = photoType;
+	}
 
 	post.save()
 		.then((result) => {
@@ -111,9 +112,9 @@ router.post("/createpost", loginmiddleware, (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
-router.put("/like", loginmiddleware, (req, res) => {
+exports.like = (req, res) => {
 	Post.findByIdAndUpdate(
 		req.body.postId,
 		{
@@ -138,9 +139,9 @@ router.put("/like", loginmiddleware, (req, res) => {
 				});
 			}
 		});
-});
+};
 
-router.put("/Unlike", loginmiddleware, (req, res) => {
+exports.unlike = (req, res) => {
 	Post.findByIdAndUpdate(
 		req.body.postId,
 		{
@@ -166,9 +167,9 @@ router.put("/Unlike", loginmiddleware, (req, res) => {
 				});
 			}
 		});
-});
+};
 
-router.put("/comment", loginmiddleware, (req, res) => {
+exports.comment = (req, res) => {
 	const comment = { Text: req.body.text, PostedBy: req.user._id };
 	Post.findByIdAndUpdate(
 		req.body.postId,
@@ -194,9 +195,9 @@ router.put("/comment", loginmiddleware, (req, res) => {
 				});
 			}
 		});
-});
+};
 
-router.delete("/deletepost/:postId", loginmiddleware, (req, res) => {
+exports.deletePost = (req, res) => {
 	Post.findOne({ _id: req.params.postId })
 		.populate("PostedBy", "_id")
 		.exec((err, post) => {
@@ -209,13 +210,4 @@ router.delete("/deletepost/:postId", loginmiddleware, (req, res) => {
 					.catch((err) => console.log(err));
 			}
 		});
-});
-
-function savePhoto(post, photoEncoded, photoType) {
-	if (photoEncoded != null) {
-		post.Photo = new Buffer.from(photoEncoded, "base64");
-		post.PhotoType = photoType;
-	}
-}
-
-module.exports = router;
+};
