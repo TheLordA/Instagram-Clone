@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -10,34 +10,24 @@ import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import { LOGIN_URL } from "../config/constants";
 import Copyright from "../components/Copyight";
+import { EmailRegex } from "../utils/regex";
 import axios from "axios";
 // Material-UI Components
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
-/*
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}*/
+
 // General Styles
 const useStyles = makeStyles((theme) => ({
 	Logo: {
 		fontFamily: "Grand Hotel, cursive",
-		margin: "40px 0px",
+		margin: "0px 0px 20px 0px",
 	},
 	paper: {
 		marginTop: "50px",
@@ -51,13 +41,14 @@ const useStyles = makeStyles((theme) => ({
 		backgroundImage: "url(https://source.unsplash.com/random)",
 		backgroundRepeat: "no-repeat",
 		backgroundPosition: "center",
+		height: "100vh",
 	},
 	form: {
 		width: "100%", // Fix IE 11 issue.
 		marginTop: theme.spacing(1),
 	},
 	submit: {
-		margin: theme.spacing(3, 0, 2),
+		margin: theme.spacing(2, 0, 2),
 	},
 }));
 
@@ -72,13 +63,22 @@ const Login = () => {
 	const [formatValidation, setFormatValidation] = useState(false);
 	const [authValidation, setAuthValidation] = useState(false);
 
+	const handleInputChanges = (e) => {
+		switch (e.target.name) {
+			case "email":
+				setEmail(e.target.value);
+				break;
+			case "password":
+				setPassword(e.target.value);
+				break;
+			default:
+				break;
+		}
+	};
+
 	const PostData = () => {
 		// the Regex email validation was token from : https://emailregex.com/
-		if (
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-				email
-			)
-		) {
+		if (EmailRegex.test(email)) {
 			axios.post(LOGIN_URL, { password, email })
 				.then((res) => {
 					const data = res.data;
@@ -91,13 +91,13 @@ const Login = () => {
 						// we also store the user details
 						localStorage.setItem("user", JSON.stringify(data.user));
 						dispatch({ type: "USER", payload: data.user });
-						//we can show that success PopUp or not depends on dev choice
-						//
 						// we redirect the user to home page
 						history.push("/");
 					}
 				})
 				.catch((err) => {
+					// that should be changed in Production
+					// TODO : Make an error handler
 					console.log(err);
 				});
 		} else {
@@ -110,15 +110,10 @@ const Login = () => {
 		<Grid container>
 			<Grid className={classes.image} item sm={4} md={6} />
 			<Grid item xs={12} sm={8} md={6}>
-				<Container component="main" maxWidth="xs" style={{ paddingBottom: "64px" }}>
+				<Container component="main" maxWidth="xs">
 					<CssBaseline />
 					<div className={classes.paper}>
-						<Typography
-							className={classes.Logo}
-							variant="h2"
-							gutterBottom
-							style={{ fontFamily: "Grand Hotel, cursive " }}
-						>
+						<Typography className={classes.Logo} variant="h2" gutterBottom>
 							Instagram Clone
 						</Typography>
 						{formatValidation ? (
@@ -140,12 +135,10 @@ const Login = () => {
 								id="email"
 								label="Email Address"
 								name="email"
-								autoComplete="email"
+								// autoComplete="email"
 								autoFocus
 								value={email}
-								onChange={(e) => {
-									setEmail(e.target.value);
-								}}
+								onChange={handleInputChanges}
 							/>
 							<TextField
 								variant="outlined"
@@ -155,31 +148,31 @@ const Login = () => {
 								name="password"
 								label="Password"
 								type="password"
-								id="password"
 								autoComplete="current-password"
 								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={handleInputChanges}
 							/>
-							<FormControlLabel
-								control={<Checkbox value="remember" color="primary" />}
-								label="Remember me"
-							/>
+
 							<Button
 								fullWidth
-								variant="contained"
+								variant="outlined"
 								color="primary"
 								className={classes.submit}
 								disabled={email !== "" && password !== "" ? false : true}
-								onClick={() => PostData()}
+								onClick={PostData}
 							>
 								Sign In
 							</Button>
 							<Grid container>
 								<Grid item xs>
-									<Link to="/reset">Forgot password?</Link>
+									<Link to="/reset" style={{ textDecoration: "none" }}>
+										Forgot password?
+									</Link>
 								</Grid>
 								<Grid item>
-									<Link to="/signup">{"Don't have an account? Sign Up"}</Link>
+									<Link to="/signup" style={{ textDecoration: "none" }}>
+										{"Don't have an account? Sign Up"}
+									</Link>
 								</Grid>
 							</Grid>
 						</form>
