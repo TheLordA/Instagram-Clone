@@ -88,7 +88,6 @@ const Signup = () => {
 	};
 
 	const PostData = () => {
-		// the Regex email validation was token from : https://emailregex.com/
 		// Here we check just if the given email has a correct format
 		if (EmailRegex.test(email)) {
 			axios.post(SIGNUP_URL, {
@@ -98,7 +97,6 @@ const Signup = () => {
 			})
 				.then((res) => {
 					const data = res.data;
-					console.log(data);
 					if (data.error) {
 						setFormatValidation(false);
 						setAuthValidation(true);

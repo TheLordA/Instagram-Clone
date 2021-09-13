@@ -1,14 +1,15 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { RESET_PWD_URL } from "../config/constants";
+import { EmailRegex } from "../utils/regex";
 import Copyright from "../components/Copyight";
 // Material-UI Components
 import Button from "@material-ui/core/Button";
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundImage: "url(https://source.unsplash.com/random)",
 		backgroundRepeat: "no-repeat",
 		backgroundPosition: "center",
+		height: "100vh",
 	},
 	container: {
 		margin: " auto 0px",
@@ -73,14 +75,19 @@ const Reset = () => {
 		},
 		[]
 	);
+	const handleInputChanges = (e) => {
+		switch (e.target.name) {
+			case "email":
+				setEmail(e.target.value);
+				break;
+
+			default:
+				break;
+		}
+	};
 
 	const PostData = () => {
-		// the Regex email validation was token from : https://emailregex.com/
-		if (
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-				email
-			)
-		) {
+		if (EmailRegex.test(email)) {
 			axios.post(RESET_PWD_URL, { email })
 				.then((res) => {
 					const data = res.data;
@@ -149,17 +156,15 @@ const Reset = () => {
 								name="email"
 								autoFocus
 								value={email}
-								onChange={(e) => {
-									setEmail(e.target.value);
-								}}
+								onChange={handleInputChanges}
 							/>
 							<Button
 								fullWidth
-								variant="contained"
+								variant="outlined"
 								color="primary"
 								className={classes.submit}
 								disabled={email !== "" ? false : true}
-								onClick={() => PostData()}
+								onClick={PostData}
 							>
 								Reset your Password
 							</Button>
