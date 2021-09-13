@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -10,6 +10,7 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { SIGNUP_URL } from "../config/constants";
 import Copyright from "../components/Copyight";
+import { EmailRegex } from "../utils/regex";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -70,14 +71,26 @@ const Signup = () => {
 		[]
 	);
 
+	const handleInputChanges = (e) => {
+		switch (e.target.name) {
+			case "username":
+				setName(e.target.value);
+				break;
+			case "email":
+				setEmail(e.target.value);
+				break;
+			case "password":
+				setPassword(e.target.value);
+				break;
+			default:
+				break;
+		}
+	};
+
 	const PostData = () => {
 		// the Regex email validation was token from : https://emailregex.com/
 		// Here we check just if the given email has a correct format
-		if (
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-				email
-			)
-		) {
+		if (EmailRegex.test(email)) {
 			axios.post(SIGNUP_URL, {
 				name,
 				password,
@@ -92,7 +105,7 @@ const Signup = () => {
 					} else {
 						// show the confirmation message
 						setConfirmValidation(true);
-						// set a time before we redirect the user to login page
+						// set a timeOut before redirecting the user to login page
 						timerRef.current = setTimeout(() => {
 							history.push("/login");
 						}, 3000);
@@ -136,14 +149,14 @@ const Signup = () => {
 						<Grid item xs={12}>
 							<TextField
 								autoComplete="UserName"
-								name="UserName"
+								name="username"
 								variant="outlined"
 								required
 								fullWidth
-								label="UserName"
+								label="User Name"
 								autoFocus
 								value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={handleInputChanges}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -155,7 +168,7 @@ const Signup = () => {
 								name="email"
 								autoComplete="email"
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={handleInputChanges}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -168,28 +181,30 @@ const Signup = () => {
 								type="password"
 								autoComplete="current-password"
 								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={handleInputChanges}
 							/>
 						</Grid>
-						<Grid item xs={12}>
+						{/* <Grid item xs={12}>
 							<FormControlLabel
 								control={<Checkbox value="allowExtraEmails" color="primary" />}
 								label="I want to receive inspiration, marketing promotions and updates via email."
 							/>
-						</Grid>
+						</Grid> */}
 					</Grid>
 					<Button
 						fullWidth
-						variant="contained"
+						variant="outlined"
 						color="primary"
 						className={classes.submit}
-						onClick={() => PostData()}
+						onClick={PostData}
 					>
 						Sign Up
 					</Button>
 					<Grid container justify="flex-end">
 						<Grid item>
-							<Link to="/login">Already have an account? Sign in</Link>
+							<Link to="/login" style={{ textDecoration: "none" }}>
+								Already have an account? Sign in
+							</Link>
 						</Grid>
 					</Grid>
 				</form>
