@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -9,7 +9,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-import { config } from "../config/constants";
+import { config as axiosConfig } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
@@ -55,6 +55,8 @@ const UserProfilePage = () => {
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
 	const [showfollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
+
+	const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(() => {
 		axios.get(`http://localhost:5000/user/${userid}`, config).then((res) => {
@@ -152,7 +154,11 @@ const UserProfilePage = () => {
 									<Grid container spacing={4}>
 										<Grid item>
 											<Typography variant="subtitle1">
-												<b>{data.posts ? data.posts.length : "IsLoading..."}</b>{" "}
+												<b>
+													{data.posts
+														? data.posts.length
+														: "IsLoading..."}
+												</b>{" "}
 												posts
 											</Typography>
 										</Grid>
@@ -196,7 +202,12 @@ const UserProfilePage = () => {
 					>
 						<Tab label="Posts" value="Posts" icon={<Icon>grid_on_outlined</Icon>} />
 						<Tab label="IGTV" value="IGTV" icon={<Icon>live_tv</Icon>} disabled />
-						<Tab label="Tagged" value="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
+						<Tab
+							label="Tagged"
+							value="Tagged"
+							icon={<Icon>local_offer_outlined</Icon>}
+							disabled
+						/>
 					</Tabs>
 					<TabPanel value={value} index="Posts">
 						<Grid container spacing={2}>

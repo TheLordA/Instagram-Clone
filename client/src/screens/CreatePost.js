@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
-import { config, CREATE_POST_URL } from "../config/constants";
+import { config as axiosConfig, CREATE_POST_URL } from "../config/constants";
 // Material-UI deps
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -101,6 +101,8 @@ const CreatePoste = () => {
 
 	const [query, setQuery] = useState("idle");
 	const timerRef = useRef();
+
+	const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(
 		() => () => {
@@ -214,7 +216,11 @@ const CreatePoste = () => {
 										disabled={files.length === 0 || caption === ""}
 										variant="contained"
 										color="primary"
-										onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+										onClick={
+											activeStep === steps.length - 1
+												? handleSubmit
+												: handleNext
+										}
 										className={classes.button}
 									>
 										{activeStep === steps.length - 1 ? "Submit" : "Next"}

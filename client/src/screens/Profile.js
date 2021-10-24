@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
 import VerticalTabs from "../components/VerticalTabs.js";
-import { config, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
+import { config as axiosConfig, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
 
 // Material-UI Components
 import { makeStyles, withStyles } from "@material-ui/styles";
@@ -110,6 +110,8 @@ const ProfilePage = () => {
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
 
+	const config = axiosConfig(localStorage.getItem("jwt"));
+
 	useEffect(() => {
 		axios.get(MY_POST_URL, config).then((res) => {
 			setData(res.data.posts);
@@ -172,13 +174,17 @@ const ProfilePage = () => {
 									</Grid>
 									<Grid item>
 										<Typography variant="subtitle1">
-											<b>{state ? state.Followers.length : "IsLoading ..."}</b>{" "}
+											<b>
+												{state ? state.Followers.length : "IsLoading ..."}
+											</b>{" "}
 											followers
 										</Typography>
 									</Grid>
 									<Grid item>
 										<Typography variant="subtitle1">
-											<b>{state ? state.Following.length : "IsLoading ..."}</b>{" "}
+											<b>
+												{state ? state.Following.length : "IsLoading ..."}
+											</b>{" "}
 											following
 										</Typography>
 									</Grid>
@@ -207,7 +213,12 @@ const ProfilePage = () => {
 					<Tab label="Posts" value="Posts" icon={<Icon>grid_on_outlined</Icon>} />
 					<Tab label="IGTV" value="IGTV" icon={<Icon>live_tv</Icon>} disabled />
 					<Tab label="Saved" value="Saved" icon={<Icon>bookmark_border_outlined</Icon>} />
-					<Tab label="Tagged" value="Tagged" icon={<Icon>local_offer_outlined</Icon>} disabled />
+					<Tab
+						label="Tagged"
+						value="Tagged"
+						icon={<Icon>local_offer_outlined</Icon>}
+						disabled
+					/>
 				</Tabs>
 				{/* Tabs Data Goes Here */}
 				<TabPanel value={value} index="Posts">
@@ -227,12 +238,18 @@ const ProfilePage = () => {
 					<GridList cellHeight={230} cols={3} spacing={15}>
 						{bookmarks.map((item) => (
 							<GridListTile key={item._id}>
-								<img src={`data:${item.PhotoType};base64,${item.Photo}`} alt={item.Title} />
+								<img
+									src={`data:${item.PhotoType};base64,${item.Photo}`}
+									alt={item.Title}
+								/>
 								<GridListTileBar
 									title={item.Title}
 									subtitle={<span>By : {item.PostedBy.Name}</span>}
 									actionIcon={
-										<IconButton aria-label={`info about`} className={classes.icon}>
+										<IconButton
+											aria-label={`info about`}
+											className={classes.icon}
+										>
 											<DeleteIcon />
 										</IconButton>
 									}
@@ -246,7 +263,11 @@ const ProfilePage = () => {
 			<Dialog onClose={handleEditClose} open={openEdit} className={classes.dialogContainer}>
 				<DialogTitle disableTypography className={classes.dialogTitle}>
 					<Typography variant="h6">Profile settings</Typography>
-					<IconButton aria-label="close" className={classes.closeButton} onClick={handleEditClose}>
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={handleEditClose}
+					>
 						<CloseIcon />
 					</IconButton>
 				</DialogTitle>

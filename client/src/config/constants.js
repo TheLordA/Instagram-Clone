@@ -12,10 +12,12 @@
 
 // This is the config used in order to send
 // our token with Axios requests
-export const config = {
-	headers: {
-		Authorization: "Bearer " + localStorage.getItem("jwt"),
-	},
+export const config = (jwt) => {
+	return {
+		headers: {
+			Authorization: "Bearer " + jwt,
+		},
+	};
 };
 
 /**

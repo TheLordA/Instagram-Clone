@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -9,7 +9,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../App";
-import { config, SUB_POST_URL } from "../config/constants";
+import { config as axiosConfig, SUB_POST_URL } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -122,9 +122,10 @@ const SubscribePost = () => {
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
 
+	const config = axiosConfig(localStorage.getItem("jwt"));
+
 	useEffect(() => {
 		axios.get(SUB_POST_URL, config).then((res) => {
-			console.log(res.data.posts);
 			setData(res.data.posts);
 		});
 	}, []);
@@ -189,7 +190,11 @@ const SubscribePost = () => {
 					title={
 						<Link
 							className={classes.links}
-							to={item.PostedBy._id !== state._id ? `/profile/${item.PostedBy._id}` : "/profile"}
+							to={
+								item.PostedBy._id !== state._id
+									? `/profile/${item.PostedBy._id}`
+									: "/profile"
+							}
 						>
 							{item.PostedBy.Name}
 						</Link>
@@ -243,7 +248,11 @@ const SubscribePost = () => {
 				<List>
 					{item.Comments.map((cmt) => {
 						return (
-							<ListItem className={classes.comment_item} alignItems="flex-start" key={cmt._id}>
+							<ListItem
+								className={classes.comment_item}
+								alignItems="flex-start"
+								key={cmt._id}
+							>
 								<ListItemText
 									secondary={
 										<React.Fragment>
