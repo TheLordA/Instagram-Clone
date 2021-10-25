@@ -7,8 +7,8 @@
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
 import axios from "axios";
+import AuthenticationContext from "../contexts/auth/Auth.context";
 import VerticalTabs from "../components/VerticalTabs.js";
 import { config as axiosConfig, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
 
@@ -105,7 +105,7 @@ function TabPanel(props) {
 
 const ProfilePage = () => {
 	const classes = useStyles();
-	const { state } = useContext(UserContext);
+	const { state } = useContext(AuthenticationContext);
 	const [data, setData] = useState([]);
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
@@ -149,7 +149,7 @@ const ProfilePage = () => {
 							<Box clone mb="20px">
 								<Grid container alignItems="center">
 									<Typography variant="h5">
-										{state ? state.Name : "IsLoading ..."}
+										{state ? state.user.Name : "IsLoading ..."}
 									</Typography>
 									<Button
 										className={classes.editButton}
@@ -175,7 +175,9 @@ const ProfilePage = () => {
 									<Grid item>
 										<Typography variant="subtitle1">
 											<b>
-												{state ? state.Followers.length : "IsLoading ..."}
+												{state
+													? state.user.Followers.length
+													: "IsLoading ..."}
 											</b>{" "}
 											followers
 										</Typography>
@@ -183,7 +185,9 @@ const ProfilePage = () => {
 									<Grid item>
 										<Typography variant="subtitle1">
 											<b>
-												{state ? state.Following.length : "IsLoading ..."}
+												{state
+													? state.user.Following.length
+													: "IsLoading ..."}
 											</b>{" "}
 											following
 										</Typography>
@@ -227,7 +231,7 @@ const ProfilePage = () => {
 							<Grid item xs={4} key={item.id} className={classes.posts}>
 								<img
 									className={classes.posts_img}
-									alt="post image"
+									alt="post"
 									src={`data:${item.photoType};base64,${item.photo}`}
 								/>
 							</Grid>

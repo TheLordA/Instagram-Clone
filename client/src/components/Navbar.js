@@ -7,7 +7,8 @@
 
 import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { UserContext } from "../App";
+import AuthenticationContext from "../contexts/auth/Auth.context";
+import { LOGOUT } from "../contexts/types";
 import Axios from "axios";
 
 // Material-UI Components
@@ -129,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
-	const { state, dispatch } = useContext(UserContext);
+	const { state, dispatch } = useContext(AuthenticationContext);
 	const history = useHistory();
 	const [search, setSearch] = useState([]);
 
@@ -175,7 +176,7 @@ const Navbar = (props) => {
 
 	const handleLogOut = () => {
 		localStorage.clear();
-		dispatch({ type: "CLEAR" });
+		dispatch({ type: LOGOUT });
 		history.push("/login");
 	};
 
@@ -290,14 +291,23 @@ const Navbar = (props) => {
 									to={item._id !== state._id ? `/profile/${item._id}` : "/profile"}
 									onClick={handleCloseModal}
 								>
-									<Divider variant="inset" component="li" style={{ marginLeft: "0px" }} />
+									<Divider
+										variant="inset"
+										component="li"
+										style={{ marginLeft: "0px" }}
+									/>
 									<ListItem alignItems="flex-start">
 										<ListItemAvatar>
-											<Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+											<Avatar
+												alt="Remy Sharp"
+												src="/static/images/avatar/1.jpg"
+											/>
 										</ListItemAvatar>
 										<ListItemText
 											primary={item.Name}
-											secondary={<React.Fragment>{item.Email}</React.Fragment>}
+											secondary={
+												<React.Fragment>{item.Email}</React.Fragment>
+											}
 										/>
 									</ListItem>
 								</Link>
@@ -338,7 +348,11 @@ const Navbar = (props) => {
 									value="search"
 									onClick={handleOpenModal}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
-									icon={<SearchOutlinedIcon style={{ "color": "rgba(0, 0, 0, 0.54)" }} />}
+									icon={
+										<SearchOutlinedIcon
+											style={{ "color": "rgba(0, 0, 0, 0.54)" }}
+										/>
+									}
 								/>
 								<BottomNavigationAction
 									label="Home"

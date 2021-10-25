@@ -75,6 +75,7 @@ const Reset = () => {
 		},
 		[]
 	);
+
 	const handleInputChanges = (e) => {
 		switch (e.target.name) {
 			case "email":

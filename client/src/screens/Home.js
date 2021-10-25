@@ -8,7 +8,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../App";
+import AuthenticationContext from "../contexts/auth/Auth.context";
+import { BOOKMARK_POST } from "../contexts/types.js";
 import { config as axiosConfig, ALL_POST_URL } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
@@ -119,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
 	const classes = useStyles();
-	const { state, dispatch } = useContext(UserContext);
+	const { state, dispatch } = useContext(AuthenticationContext);
 
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
@@ -161,7 +162,7 @@ const Home = () => {
 		axios.put(`http://localhost:5000/bookmark-post`, { postId: id }, config)
 			.then((result) => {
 				dispatch({
-					type: "BOOKMARK",
+					type: BOOKMARK_POST,
 					payload: { Bookmarks: result.data.Bookmarks },
 				});
 				localStorage.setItem("user", JSON.stringify(result.data));
@@ -173,7 +174,7 @@ const Home = () => {
 		axios.put(`http://localhost:5000/remove-bookmark`, { postId: id }, config)
 			.then((result) => {
 				dispatch({
-					type: "BOOKMARK",
+					type: BOOKMARK_POST,
 					payload: { Bookmarks: result.data.Bookmarks },
 				});
 				localStorage.setItem("user", JSON.stringify(result.data));

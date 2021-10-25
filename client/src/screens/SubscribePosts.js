@@ -8,7 +8,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../App";
+import AuthenticationContext from "../contexts/auth/Auth.context";
 import { config as axiosConfig, SUB_POST_URL } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/core/styles";
@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubscribePost = () => {
 	const classes = useStyles();
-	const { state } = useContext(UserContext);
+	const { state } = useContext(AuthenticationContext);
 
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);

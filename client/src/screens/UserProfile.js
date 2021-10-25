@@ -8,7 +8,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../App";
+import AuthenticationContext from "../contexts/auth/Auth.context";
+import { UPDATE_FOLLOW_DATA } from "../contexts/types";
 import { config as axiosConfig } from "../config/constants";
 // Material-UI Components
 import { makeStyles } from "@material-ui/styles";
@@ -51,7 +52,7 @@ function TabPanel(props) {
 const UserProfilePage = () => {
 	const classes = useStyles();
 	const [value, setValue] = useState("Posts"); // to switch between different tabs
-	const { state, dispatch } = useContext(UserContext);
+	const { state, dispatch } = useContext(AuthenticationContext);
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
 	const [showfollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
@@ -67,7 +68,7 @@ const UserProfilePage = () => {
 	const followUser = () => {
 		axios.put(`http://localhost:5000/follow`, { followId: userid }, config).then((result) => {
 			dispatch({
-				type: "UPDATE",
+				type: UPDATE_FOLLOW_DATA,
 				payload: { Followers: result.data.Followers, Following: result.data.Following },
 			});
 			localStorage.setItem("user", JSON.stringify(result.data));
@@ -87,7 +88,7 @@ const UserProfilePage = () => {
 	const UnfollowUser = () => {
 		axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
 			dispatch({
-				type: "UPDATE",
+				type: UPDATE_FOLLOW_DATA,
 				payload: { Followers: result.data.Followers, Following: result.data.Following },
 			});
 			localStorage.setItem("user", JSON.stringify(result.data));

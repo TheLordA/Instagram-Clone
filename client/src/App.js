@@ -5,22 +5,16 @@
  *
  */
 
-import React, { createContext, useReducer } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { reducer, initialState } from "./reducers/userReducer";
-import Routing from "./routes";
+import React from "react";
+import AuthentificationState from "./contexts/auth/Auth.state";
+import Routing from "./routes/Routing";
 import "./App.css";
 
-export const UserContext = createContext();
-
 const App = () => {
-	const [state, dispatch] = useReducer(reducer, initialState);
 	return (
-		<UserContext.Provider value={{ state, dispatch }}>
-			<BrowserRouter>
-				<Routing />
-			</BrowserRouter>
-		</UserContext.Provider>
+		<AuthentificationState>
+			<Routing />
+		</AuthentificationState>
 	);
 };
 
