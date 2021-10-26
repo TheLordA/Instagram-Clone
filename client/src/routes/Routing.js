@@ -2,7 +2,8 @@ import React, { useEffect, useContext } from "react";
 import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom";
 
 import AuthContext from "../contexts/auth/Auth.context";
-import NavBar from "../components/Navbar";
+import ProtectedRoute from "./ProtectedRoute";
+
 // different routes
 import Home from "../screens/Home";
 import Login from "../screens/Login";
@@ -25,38 +26,21 @@ const Routing = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/">
-					<NavBar nav="home" />
-					<SubscribePost />
-				</Route>
-				<Route path="/explore">
-					<NavBar nav="explore" />
-					<Home />
-				</Route>
-				<Route path="/create">
-					<NavBar nav="add post" />
-					<CreatePost />
-				</Route>
-				<Route exact path="/profile">
-					<NavBar nav="profile" />
-					<Profile />
-				</Route>
-				<Route path="/profile/:userid">
-					<NavBar />
-					<UserProfile />
-				</Route>
-				<Route path="/login">
-					<Login />
-				</Route>
-				<Route path="/signup">
-					<Signup />
-				</Route>
-				<Route exact path="/reset">
-					<Reset />
-				</Route>
-				<Route path="/reset/:token">
-					<NewPass />
-				</Route>
+				{/* Public routes */}
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/signup" component={Signup} />
+				<Route exact path="/reset" component={Reset} />
+				<Route exact path="/reset/:token" component={NewPass} />
+
+				{/* Separate the protected routes from public ones */}
+				<ProtectedRoute exact path="/" component={SubscribePost} />
+				<ProtectedRoute exact path="/explore" component={Home} />
+				<ProtectedRoute exact path="/create" component={CreatePost} />
+				<ProtectedRoute exact path="/profile" component={Profile} />
+				<ProtectedRoute exact path="/profile/:userid" component={UserProfile} />
+
+				{/* in case we want to handle the 404 page not found */}
+				{/* <Route component={NotFound} /> */}
 			</Switch>
 		</BrowserRouter>
 	);
