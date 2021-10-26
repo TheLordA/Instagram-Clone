@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import VerticalTabs from "../components/VerticalTabs.js";
+import Navbar from "../components/Navbar";
 import { config as axiosConfig, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
 
 // Material-UI Components
@@ -94,14 +95,14 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 // Tabs data container
-function TabPanel(props) {
+const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
 	return (
 		<div role="tabpanel" hidden={value !== index} {...other}>
 			{value === index && <Box p={3}>{children}</Box>}
 		</div>
 	);
-}
+};
 
 const ProfilePage = () => {
 	const classes = useStyles();
@@ -119,7 +120,7 @@ const ProfilePage = () => {
 		axios.get(MY_BOOKMARKS_URL, config).then((res) => {
 			setBookmarks(res.data.bookmark);
 		});
-	}, []);
+	});
 
 	//Toggle the EditProfile Button to show the Dialog
 	const [openEdit, setOpenEdit] = useState(false);
@@ -132,7 +133,8 @@ const ProfilePage = () => {
 	};
 
 	return (
-		<React.Fragment>
+		<>
+			<Navbar />
 			<CssBaseline />
 			<Box component="main" className={classes.root}>
 				{/* User Profile Data Goes Here */}
@@ -284,7 +286,7 @@ const ProfilePage = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</React.Fragment>
+		</>
 	);
 };
 

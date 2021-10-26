@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -129,7 +129,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Navbar = (props) => {
+const getModalStyle = () => {
+	const top = 50;
+	const left = 50;
+
+	return {
+		top: `${top}%`,
+		left: `${left}%`,
+		transform: `translate(-${top}%, -${left}%)`,
+		border: "1px solid rgba(0, 0, 0, 0.015)",
+	};
+};
+
+const Navbar = () => {
 	const { state, dispatch } = useContext(AuthenticationContext);
 	const history = useHistory();
 	const [search, setSearch] = useState([]);
@@ -143,7 +155,7 @@ const Navbar = (props) => {
 	const [modalStyle] = useState(getModalStyle);
 	const [openModal, setOpenModal] = useState(false);
 
-	const FindUser = (pattern) => {
+	const findUser = (pattern) => {
 		if (!(pattern === "")) {
 			const URL = `http://localhost:5000/users-research`;
 			const config = {
@@ -278,7 +290,7 @@ const Navbar = (props) => {
 						input: classes.inputInput,
 					}}
 					inputProps={{ "aria-label": "search" }}
-					onChange={(e) => FindUser(e.target.value)}
+					onChange={(e) => findUser(e.target.value)}
 				/>
 			</div>
 			<List className={classes.root}>
@@ -318,18 +330,6 @@ const Navbar = (props) => {
 		</div>
 	);
 
-	function getModalStyle() {
-		const top = 50;
-		const left = 50;
-
-		return {
-			top: `${top}%`,
-			left: `${left}%`,
-			transform: `translate(-${top}%, -${left}%)`,
-			border: "1px solid rgba(0, 0, 0, 0.015)",
-		};
-	}
-
 	return (
 		<nav>
 			<div className={classes.grow}>
@@ -342,7 +342,7 @@ const Navbar = (props) => {
 						</Link>
 						<div className={classes.grow} />
 						<div className={classes.sectionDesktop}>
-							<BottomNavigation value={props.nav}>
+							<BottomNavigation>
 								<BottomNavigationAction
 									label="Search"
 									value="search"

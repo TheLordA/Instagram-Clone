@@ -10,6 +10,8 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { config as axiosConfig, CREATE_POST_URL } from "../config/constants";
+import Navbar from "../components/Navbar";
+
 // Material-UI deps
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -87,9 +89,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function getSteps() {
+const getSteps = () => {
 	return ["Select you image", "Tag a Friend", "Submit the post"];
-}
+};
 
 const CreatePoste = () => {
 	const classes = useStyles();
@@ -196,64 +198,68 @@ const CreatePoste = () => {
 	};
 
 	return (
-		<div className={classes.root}>
-			<Stepper component={Paper} elevation={3} activeStep={activeStep} orientation="vertical">
-				{steps.map((label, index) => (
-					<Step key={label}>
-						<StepLabel>{label}</StepLabel>
-						<StepContent>
-							<Typography>{getStepContent(index)}</Typography>
-							<div className={classes.actionsContainer}>
-								<div>
-									<Button
-										disabled={activeStep === 0}
-										onClick={handleBack}
-										className={classes.button}
-									>
-										Back
-									</Button>
-									<Button
-										disabled={files.length === 0 || caption === ""}
-										variant="contained"
-										color="primary"
-										onClick={
-											activeStep === steps.length - 1
-												? handleSubmit
-												: handleNext
-										}
-										className={classes.button}
-									>
-										{activeStep === steps.length - 1 ? "Submit" : "Next"}
-									</Button>
+		<>
+			<Navbar />
+			<div className={classes.root}>
+				<Stepper component={Paper} elevation={3} activeStep={activeStep} orientation="vertical">
+					{steps.map((label, index) => (
+						<Step key={label}>
+							<StepLabel>{label}</StepLabel>
+							<StepContent>
+								<Typography>{getStepContent(index)}</Typography>
+								<div className={classes.actionsContainer}>
+									<div>
+										<Button
+											disabled={activeStep === 0}
+											onClick={handleBack}
+											className={classes.button}
+										>
+											Back
+										</Button>
+										<Button
+											disabled={files.length === 0 || caption === ""}
+											variant="contained"
+											color="primary"
+											onClick={
+												activeStep === steps.length - 1
+													? handleSubmit
+													: handleNext
+											}
+											className={classes.button}
+										>
+											{activeStep === steps.length - 1 ? "Submit" : "Next"}
+										</Button>
+									</div>
 								</div>
+							</StepContent>
+						</Step>
+					))}
+					{activeStep === steps.length && (
+						<Paper square elevation={0} className={classes.resetContainer}>
+							<div className={classes.finishStyle}>
+								{query === "success" ? (
+									<Alert variant="outlined" severity="success">
+										Your post has been successfully submitted — check it out!
+									</Alert>
+								) : (
+									<Fade
+										className={classes.finishStyle}
+										in={query === "progress"}
+										style={{
+											transitionDelay:
+												query === "progress" ? "100ms" : "0ms",
+										}}
+										unmountOnExit
+									>
+										<CircularProgress />
+									</Fade>
+								)}
 							</div>
-						</StepContent>
-					</Step>
-				))}
-				{activeStep === steps.length && (
-					<Paper square elevation={0} className={classes.resetContainer}>
-						<div className={classes.finishStyle}>
-							{query === "success" ? (
-								<Alert variant="outlined" severity="success">
-									Your post has been successfully submitted — check it out!
-								</Alert>
-							) : (
-								<Fade
-									className={classes.finishStyle}
-									in={query === "progress"}
-									style={{
-										transitionDelay: query === "progress" ? "100ms" : "0ms",
-									}}
-									unmountOnExit
-								>
-									<CircularProgress />
-								</Fade>
-							)}
-						</div>
-					</Paper>
-				)}
-			</Stepper>
-		</div>
+						</Paper>
+					)}
+				</Stepper>
+			</div>
+		</>
 	);
 };
 
