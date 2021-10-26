@@ -55,7 +55,7 @@ const UserProfilePage = () => {
 	const { state, dispatch } = useContext(AuthenticationContext);
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
-	const [showfollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
+	const [showFollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
 
 	const config = axiosConfig(localStorage.getItem("jwt"));
 
@@ -85,7 +85,7 @@ const UserProfilePage = () => {
 		});
 	};
 
-	const UnfollowUser = () => {
+	const unfollowUser = () => {
 		axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
 			dispatch({
 				type: UPDATE_FOLLOW_DATA,
@@ -126,7 +126,7 @@ const UserProfilePage = () => {
 										<Typography variant="h5">
 											{data.user ? data.user.Name : "Is Loading ..."}
 										</Typography>
-										{showfollow ? (
+										{showFollow ? (
 											<Button
 												className={classes.editButton}
 												variant="outlined"
@@ -138,7 +138,7 @@ const UserProfilePage = () => {
 											<Button
 												className={classes.editButton}
 												variant="outlined"
-												onClick={() => UnfollowUser()}
+												onClick={() => unfollowUser()}
 											>
 												UnFollow
 											</Button>

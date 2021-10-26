@@ -120,7 +120,7 @@ const ProfilePage = () => {
 		axios.get(MY_BOOKMARKS_URL, config).then((res) => {
 			setBookmarks(res.data.bookmark);
 		});
-	});
+	}, []);
 
 	//Toggle the EditProfile Button to show the Dialog
 	const [openEdit, setOpenEdit] = useState(false);

@@ -133,7 +133,7 @@ const Home = () => {
 		axios.get(ALL_POST_URL, config).then((res) => {
 			setData(res.data.posts);
 		});
-	});
+	}, []);
 
 	const likePost = (id) => {
 		axios.put(`http://localhost:5000/like`, { postId: id }, config)
@@ -147,7 +147,7 @@ const Home = () => {
 			.catch((err) => console.log(err));
 	};
 
-	const UnlikePost = (id) => {
+	const unlikePost = (id) => {
 		axios.put(`http://localhost:5000/Unlike`, { postId: id }, config)
 			.then((res) => {
 				const newData = data.map((item) => {
@@ -250,7 +250,7 @@ const Home = () => {
 									aria-label="Like"
 									color="secondary"
 									onClick={() => {
-										UnlikePost(item._id);
+										unlikePost(item._id);
 									}}
 								>
 									<FavoriteIcon />

@@ -75,7 +75,7 @@ const NewPass = () => {
 		[]
 	);
 
-	const PostData = () => {
+	const handlePostData = () => {
 		axios.post(NEW_PWD_URL, { password, token })
 			.then((res) => {
 				const data = res.data;
@@ -159,7 +159,7 @@ const NewPass = () => {
 								color="primary"
 								className={classes.submit}
 								disabled={password !== "" && confirmPassword !== "" ? false : true}
-								onClick={() => PostData()}
+								onClick={handlePostData}
 							>
 								Submit The New Password
 							</Button>

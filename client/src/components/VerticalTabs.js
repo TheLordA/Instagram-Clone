@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 
@@ -15,7 +15,7 @@ import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 
-function TabPanel(props) {
+const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
 	return (
 		<div
@@ -33,7 +33,7 @@ function TabPanel(props) {
 			)}
 		</div>
 	);
-}
+};
 
 TabPanel.propTypes = {
 	children: PropTypes.node,
@@ -41,12 +41,12 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
+const a11yProps = (index) => {
 	return {
 		id: `vertical-tab-${index}`,
 		"aria-controls": `vertical-tabpanel-${index}`,
 	};
-}
+};
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -97,55 +97,83 @@ export default function VerticalTabs() {
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Name
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<Typography variant="caption" className={classes.textInfo}>
-						Help people discover your account by using the name you're known by: either your full
-						name, nickname, or business name.
+						Help people discover your account by using the name you're known by: either your
+						full name, nickname, or business name.
 					</Typography>
 					<div className={classes.fieldContainerUnderInfo}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Username
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<div className={classes.fieldContainer}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Website
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<div className={classes.fieldContainer}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Bio
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<Typography variant="caption" className={classes.textInfo}>
 						Personal Information
 					</Typography>
 					<Divider />
 					<Typography variant="caption" className={classes.textInfo}>
-						Provide your personal information, even if the account is used for a business, a pet or
-						something else. This won't be a part of your public profile.
+						Provide your personal information, even if the account is used for a business, a
+						pet or something else. This won't be a part of your public profile.
 					</Typography>
 					<div className={classes.fieldContainerUnderInfo}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Email
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<div className={classes.fieldContainer}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Phone Number
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 					<div className={classes.fieldContainer}>
 						<Typography variant="caption" gutterBottom className={classes.fieldLabel}>
 							Gender
 						</Typography>
-						<TextField id="outlined-basic" variant="outlined" className={classes.fieldInput} />
+						<TextField
+							id="outlined-basic"
+							variant="outlined"
+							className={classes.fieldInput}
+						/>
 					</div>
 				</form>
 			</TabPanel>

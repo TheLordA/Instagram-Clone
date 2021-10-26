@@ -113,7 +113,7 @@ const CreatePoste = () => {
 		[]
 	);
 
-	const PostData = () => {
+	const handlePostData = () => {
 		// the Index 0 means the first file , we will add in the future the support of multiple
 		// images upload , the max will be 10 images per post
 		const photoEncode = files[0].getFileEncodeBase64String();
@@ -194,7 +194,7 @@ const CreatePoste = () => {
 	const handleSubmit = () => {
 		handleNext();
 		handleClickQuery();
-		PostData();
+		handlePostData();
 	};
 
 	return (

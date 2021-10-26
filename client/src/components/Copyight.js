@@ -1,7 +1,7 @@
 /**
  *
- * @author Anass Ferrak aka " TheLordA " <an.ferrak@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Web-App-MERN-Stack-Clone
+ * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
+ * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
 import React from "react";
@@ -12,7 +12,7 @@ const Copyright = () => {
 	return (
 		<Typography variant="body2" color="textSecondary" align="center">
 			{"Copyright © "}
-			<Link to="/">InstaClone</Link> {new Date().getFullYear()}
+			<Link to="/">InstagramClone</Link> {new Date().getFullYear()}
 			{"."}
 		</Typography>
 	);

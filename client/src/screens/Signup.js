@@ -85,7 +85,7 @@ const Signup = () => {
 		}
 	};
 
-	const PostData = () => {
+	const handlePostData = () => {
 		// Here we check just if the given email has a correct format
 		if (EmailRegex.test(email)) {
 			axios.post(SIGNUP_URL, {
@@ -115,6 +115,7 @@ const Signup = () => {
 			setFormatValidation(true);
 		}
 	};
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -192,7 +193,7 @@ const Signup = () => {
 						variant="outlined"
 						color="primary"
 						className={classes.submit}
-						onClick={PostData}
+						onClick={handlePostData}
 					>
 						Sign Up
 					</Button>

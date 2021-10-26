@@ -77,7 +77,7 @@ const Login = () => {
 		}
 	};
 
-	const PostData = () => {
+	const handlePostData = () => {
 		// the Regex email validation was token from : https://emailregex.com/
 		if (EmailRegex.test(email)) {
 			axios.post(LOGIN_URL, { password, email })
@@ -160,7 +160,7 @@ const Login = () => {
 								color="primary"
 								className={classes.submit}
 								disabled={email !== "" && password !== "" ? false : true}
-								onClick={PostData}
+								onClick={handlePostData}
 							>
 								Sign In
 							</Button>

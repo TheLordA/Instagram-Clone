@@ -129,7 +129,7 @@ const SubscribePost = () => {
 		axios.get(SUB_POST_URL, config).then((res) => {
 			setData(res.data.posts);
 		});
-	});
+	}, []);
 
 	const likePost = (id) => {
 		axios.put(`http://localhost:5000/like`, { postId: id }, config)
