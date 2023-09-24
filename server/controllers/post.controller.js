@@ -4,7 +4,6 @@
  * GitHub repo: https://github.com/TheLordA/Instagram-Clone
  *
  */
-
 const Post = require("../models/post.model");
 
 exports.allPost = (req, res) => {
@@ -86,8 +85,8 @@ exports.myPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-	const { title, body, photoEncode, photoType } = req.body;
-	if (!title || !body || !photoEncode) {
+	const { title, body, photoEncoded, photoType } = req.body;
+	if (!title || !body || !photoEncoded) {
 		return res.json({
 			error: "Please submit all the required fields.",
 		});
